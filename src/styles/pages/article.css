@@ -1,0 +1,41 @@
+@layer pages {
+  /* A barra de progresso só existe no artigo. */
+  .c-nav__progress {
+    display: none;
+  }
+
+  .p-post .c-nav__progress {
+    display: block;
+  }
+
+  /*
+   * Com suporte a animações por rolagem, o progresso é só CSS: acompanha o
+   * corpo do artigo (não a página inteira com comentários). Sem suporte, o
+   * JS grava --progress no elemento.
+   */
+  @supports (animation-timeline: view()) {
+    .p-post {
+      timeline-scope: --article;
+    }
+
+    .p-post .c-article__body {
+      view-timeline: --article block;
+    }
+
+    .p-post .c-nav__progress {
+      animation: reading-progress linear both;
+      animation-timeline: --article;
+      animation-range: contain 0% contain 100%;
+    }
+  }
+
+  @keyframes reading-progress {
+    from {
+      transform: scaleX(0);
+    }
+
+    to {
+      transform: scaleX(1);
+    }
+  }
+}

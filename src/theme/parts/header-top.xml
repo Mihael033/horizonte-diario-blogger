@@ -1,0 +1,5 @@
+    <!-- Línea superior (tablet y escritorio): fecha de hoy y botón del boletín. -->
+    <div class='c-masthead__top'>
+      <p class='c-masthead__date'><time data-js='date-today'/></p>
+      <a class='c-button c-button--sun c-masthead__subscribe' href='#newsletter'>Suscríbete al boletín</a>
+    </div>

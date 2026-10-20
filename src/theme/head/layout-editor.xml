@@ -1,0 +1,17 @@
+  <!-- ===== Estilo del editor de Diseño (Tema → Diseño). No afecta al blog publicado. ===== -->
+  <b:template-skin><![CDATA[
+body#layout { min-width: 0; max-width: 1100px; margin: 0 auto; padding: 24px; background: #F1F4F9; font: 14px/1.4 Arial, sans-serif; }
+body#layout .c-skip, body#layout .c-nav__progress, body#layout .c-masthead__top, body#layout .c-nav__toggle,
+body#layout .c-nav__mini, body#layout .c-nav__actions, body#layout .c-search, body#layout .c-nav-sentinel,
+body#layout .c-nav__drawer-head, body#layout .c-scrim, body#layout .c-toast, body#layout .c-footer__bottom,
+body#layout svg, body#layout template { display: none !important; }
+body#layout .c-masthead, body#layout .c-nav, body#layout .c-ticker-section, body#layout .l-main, body#layout .c-footer { display: block; position: static; margin: 0 0 16px; padding: 0; background: none; transform: none; }
+body#layout .l-container { max-width: none; padding: 0; }
+body#layout .c-nav__menu { display: block; position: static; transform: none; }
+body#layout .l-page { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+body#layout .l-main__blog, body#layout .l-home-extra { grid-column: 1; display: block; }
+body#layout .l-sidebar { grid-column: 2; grid-row: 1 / span 2; }
+body#layout .c-footer__grid { display: flex; flex-wrap: wrap; gap: 16px; }
+body#layout .c-footer__grid > .section { flex: 1 1 200px; }
+body#layout .section h4 { font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: #33405A; }
+  ]]></b:template-skin>

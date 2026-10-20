@@ -1,0 +1,8 @@
+node_modules/
+dist/
+preview/
+.preview-tmp-*/
+preview-old-*/
+.playwright-cli/
+.preview-pages/
+_site/

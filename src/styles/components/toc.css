@@ -1,0 +1,80 @@
+@layer components {
+  /*
+   * Sumário gerado pelo JS a partir dos h2 do post. No desktop fica fixo na
+   * coluna da esquerda e marca a seção atual (aria-current="true").
+   */
+  .c-toc {
+    padding: var(--space-s) var(--space-m);
+    font-size: var(--step--1);
+    line-height: 1.35;
+    background: var(--color-surface);
+    border-radius: var(--radius-s);
+  }
+
+  .c-toc__title {
+    margin-block-end: var(--space-2xs);
+    font: inherit;
+    font-weight: 700;
+    color: var(--color-ink);
+  }
+
+  .c-toc__list {
+    display: grid;
+    padding: 0;
+    list-style: none;
+  }
+
+  .c-toc__list a {
+    position: relative;
+    display: block;
+    padding-block: 0.4em;
+    padding-inline-start: var(--space-s);
+    text-decoration: none;
+    color: var(--color-ink-soft);
+    transition: color var(--dur-1) var(--ease-out);
+  }
+
+  /* Trilho vertical; o trecho atual acende na cor da seção. */
+  .c-toc__list a::before {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    inline-size: 2px;
+    background: var(--color-rule);
+    transition: background-color var(--dur-2) var(--ease-out);
+  }
+
+  /* Subtítulos (h3) recuados sob o h2. */
+  .c-toc__list li[data-level="3"] a {
+    padding-inline-start: var(--space-m);
+    font-size: 0.94em;
+  }
+
+  .c-toc__list a:hover {
+    color: var(--color-ink);
+  }
+
+  .c-toc__list a:is([aria-current="location"], [aria-current="true"]) {
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  .c-toc__list a:is([aria-current="location"], [aria-current="true"])::before {
+    background: var(--sec, var(--color-accent));
+  }
+
+  @media (width >= 64em) {
+    .c-toc {
+      position: sticky;
+      inset-block-start: calc(var(--header-h) + var(--space-l));
+      padding: 0;
+      background: none;
+    }
+
+    .c-toc__title {
+      padding-block-end: var(--space-2xs);
+      border-block-end: 2px solid var(--color-horizon);
+    }
+  }
+}

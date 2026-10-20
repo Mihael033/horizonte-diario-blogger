@@ -1,0 +1,2 @@
+/* Ordem da cascata. Os tokens (:root) ficam fora das camadas, no b:skin. */
+@layer reset, base, layout, components, pages, motion, utilities;

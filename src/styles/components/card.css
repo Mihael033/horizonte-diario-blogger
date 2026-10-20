@@ -1,0 +1,315 @@
+@layer components {
+  /*
+   * Cartão de notícia. Uma só marcação (a do includable "card" e do
+   * <template id="tpl-card">). A variante vem de dois jeitos:
+   *   - clones do JS: classe c-card--<variante> na raiz;
+   *   - cartões do Blogger: o contêiner diz [data-card="<variante>"].
+   * A regra do contêiner só vale para cartões sem modificador (no bloco de
+   * seção o primeiro clone é --standard dentro de um contêiner "list").
+   * O cartão inteiro é clicável pelo link do título (::after esticado);
+   * a seção fica por cima e continua sendo link próprio.
+   */
+  .c-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    min-inline-size: 0;
+  }
+
+  .c-card:has(.c-card__link:focus-visible) {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 6px;
+    border-radius: 2px;
+  }
+
+  .c-card__media {
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    background: var(--color-surface);
+  }
+
+  .c-card__img {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    transition:
+      transform var(--dur-3) var(--ease-out),
+      filter var(--dur-3) var(--ease-out);
+  }
+
+  /* Entrada sem imagem: o horizonte desenhado, na cor da seção. */
+  .c-card__placeholder {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    background:
+      radial-gradient(circle at 50% 72%, var(--sec, var(--color-sun)) 0 14%, transparent 14.5%),
+      linear-gradient(to bottom, transparent 72%, var(--color-surface-2) 72%),
+      var(--color-surface);
+  }
+
+  .c-card.has-no-image .c-card__img {
+    display: none;
+  }
+
+  .c-card.has-no-image .c-card__media {
+    background:
+      radial-gradient(circle at 50% 72%, var(--sec, var(--color-sun)) 0 14%, transparent 14.5%),
+      linear-gradient(to bottom, transparent 72%, var(--color-surface-2) 72%),
+      var(--color-surface);
+  }
+
+  .c-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    min-inline-size: 0;
+  }
+
+  .c-card__section {
+    position: relative;
+    z-index: 2;
+    align-self: flex-start;
+    font-size: var(--step--1);
+    font-weight: 700;
+    line-height: 1.3;
+    text-decoration: none;
+    color: var(--sec, var(--color-accent));
+  }
+
+  .c-card__section:empty {
+    display: none;
+  }
+
+  .c-card__section:hover {
+    text-decoration: underline;
+  }
+
+  .c-card__title {
+    font: var(--font-title);
+    font-size: var(--step-1);
+    font-weight: 600;
+    line-height: 1.16;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  .c-card__link {
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-decoration-thickness: 0.07em;
+    text-underline-offset: 0.16em;
+    transition: text-decoration-color var(--dur-2) var(--ease-out);
+  }
+
+  .c-card__link:focus-visible {
+    outline: none;
+  }
+
+  .c-card__link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .c-card__excerpt {
+    display: -webkit-box;
+    overflow: hidden;
+    font-size: var(--step--1);
+    line-height: 1.5;
+    color: var(--color-ink-soft);
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+  }
+
+  .c-card__excerpt:empty {
+    display: none;
+  }
+
+  .c-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25em 0.75em;
+    margin-block-start: var(--space-3xs);
+    font-size: var(--step--1);
+    line-height: 1.3;
+    color: var(--color-muted);
+  }
+
+  /* Divisor fino entre data e tempo de leitura. */
+  .c-card__readtime:not(:empty)::before {
+    content: "";
+    display: inline-block;
+    inline-size: 1px;
+    block-size: 0.85em;
+    margin-inline-end: 0.75em;
+    vertical-align: -0.1em;
+    background: var(--color-rule);
+  }
+
+  @media (hover: hover) {
+    .c-card:hover .c-card__link {
+      text-decoration-color: var(--sec, var(--color-accent));
+    }
+
+    .c-card:hover .c-card__img {
+      transform: scale(1.035);
+      filter: saturate(1.08);
+    }
+  }
+
+  /* ---------- Carregando (o JS troca pelos cartões; reserva a altura) ---------- */
+  .c-card--skeleton {
+    display: block;
+    aspect-ratio: 4 / 3;
+    background:
+      linear-gradient(100deg, transparent 30%, color-mix(in oklab, var(--color-bg) 65%, transparent) 50%, transparent 70%) 0 0 / 200% 100%,
+      var(--color-surface);
+    border-radius: var(--radius-s);
+    animation: skeleton-shine 1.4s linear infinite;
+  }
+
+  @keyframes skeleton-shine {
+    to {
+      background-position: -200% 0;
+    }
+  }
+
+  /* ---------- Destaque principal (só classe: vem do includable heroLead) ---------- */
+
+  /*
+   * O bloco de texto sobe por cima da foto: a borda da foto vira horizonte.
+   * z-index em item flex (sem position) põe o texto por cima da foto sem
+   * virar bloco de contenção do link esticado, que segue cobrindo o cartão.
+   */
+  .c-card--lead {
+    gap: 0;
+  }
+
+  .c-card--lead .c-card__media {
+    margin-inline: calc(-1 * var(--gutter));
+  }
+
+  /* No celular a foto sangra; a placa de texto também começa na borda. */
+  .c-card--lead .c-card__body {
+    z-index: 1;
+    gap: var(--space-2xs);
+    margin-block-start: calc(-1 * var(--space-l));
+    margin-inline: calc(-1 * var(--gutter)) var(--space-l);
+    padding-block-start: var(--space-s);
+    padding-inline: var(--gutter) var(--space-s);
+    background: var(--color-bg);
+  }
+
+  .c-card--lead .c-card__title {
+    font-size: var(--step-4);
+    font-weight: 600;
+    line-height: 1.04;
+    letter-spacing: -0.022em;
+  }
+
+  .c-card--lead .c-card__excerpt {
+    font-size: var(--step-0);
+    line-height: 1.5;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+  }
+
+  @media (width >= 40em) {
+    .c-card--lead .c-card__media {
+      margin-inline: 0;
+    }
+
+    .c-card--lead .c-card__body {
+      margin-block-start: calc(-1 * var(--space-2xl));
+      margin-inline: 0 24%;
+      padding-block-start: var(--space-m);
+      padding-inline: 0 var(--space-l);
+    }
+  }
+
+  /* ---------- Secundário ---------- */
+  :is(.c-card--secondary, [data-card="secondary"] .c-card:not([class*="c-card--"])) .c-card__title {
+    font-size: var(--step-2);
+    line-height: 1.1;
+  }
+
+  :is(.c-card--secondary, [data-card="secondary"] .c-card:not([class*="c-card--"])) .c-card__excerpt {
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  /* ---------- Lista e linha: miniatura quadrada à direita ---------- */
+  :is(.c-card--list, .c-card--row, [data-card="list"] .c-card:not([class*="c-card--"]), [data-card="row"] .c-card:not([class*="c-card--"])) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 5.5rem;
+    gap: var(--space-s);
+    align-items: start;
+  }
+
+  :is(.c-card--list, .c-card--row, [data-card="list"] .c-card:not([class*="c-card--"]), [data-card="row"] .c-card:not([class*="c-card--"])) .c-card__media {
+    grid-column: 2;
+    grid-row: 1;
+    aspect-ratio: 1;
+  }
+
+  :is(.c-card--list, .c-card--row, [data-card="list"] .c-card:not([class*="c-card--"]), [data-card="row"] .c-card:not([class*="c-card--"])) .c-card__body {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  :is(.c-card--list, .c-card--row, .c-card--compact, [data-card="list"] .c-card:not([class*="c-card--"]), [data-card="row"] .c-card:not([class*="c-card--"]), [data-card="compact"] .c-card:not([class*="c-card--"])) .c-card__title {
+    font-size: var(--step-0);
+    line-height: 1.22;
+  }
+
+  :is(.c-card--list, [data-card="list"] .c-card:not([class*="c-card--"])) .c-card__excerpt {
+    display: none;
+  }
+
+  /* ---------- Linha (etiqueta, busca): foto à esquerda a partir do tablet ---------- */
+  @media (width >= 40em) {
+    :is(.c-card--row, [data-card="row"] .c-card:not([class*="c-card--"])) {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+      gap: var(--space-m);
+    }
+
+    :is(.c-card--row, [data-card="row"] .c-card:not([class*="c-card--"])) .c-card__media {
+      grid-column: 1;
+      aspect-ratio: 16 / 9;
+    }
+
+    :is(.c-card--row, [data-card="row"] .c-card:not([class*="c-card--"])) .c-card__body {
+      grid-column: 2;
+      gap: var(--space-2xs);
+    }
+
+    :is(.c-card--row, [data-card="row"] .c-card:not([class*="c-card--"])) .c-card__title {
+      font-size: var(--step-2);
+      line-height: 1.12;
+    }
+  }
+
+  @media (width < 40em) {
+    :is(.c-card--row, [data-card="row"] .c-card:not([class*="c-card--"])) .c-card__excerpt {
+      display: none;
+    }
+  }
+
+  /* ---------- Compacto (sem foto: busca, mais lidas) ---------- */
+  :is(.c-card--compact, [data-card="compact"] .c-card:not([class*="c-card--"])) {
+    gap: var(--space-3xs);
+  }
+
+  :is(.c-card--compact, [data-card="compact"] .c-card:not([class*="c-card--"])) :is(.c-card__media, .c-card__excerpt) {
+    display: none;
+  }
+
+  :is(.c-card--compact, [data-card="compact"] .c-card:not([class*="c-card--"])) .c-card__meta {
+    margin-block-start: 0;
+  }
+}

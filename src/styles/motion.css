@@ -1,0 +1,127 @@
+@layer motion {
+  /*
+   * Movimento. Um momento orquestrado (o sol nasce na marca, só na portada),
+   * respostas a ações (troca de tema, navegação) e nada mais.
+   * Tudo some com prefers-reduced-motion.
+   */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* ---------- Abertura da portada: as réguas se estendem e o sol nasce ---------- */
+
+    /* Usa `translate` (não `transform`) para somar ao pôr do sol do modo escuro. */
+    .p-home .c-masthead .c-logo__sun {
+      animation: sun-rise 1.1s var(--ease-out) 0.2s backwards;
+    }
+
+    .p-home .c-masthead__rule {
+      animation: rule-draw 1s var(--ease-out) backwards;
+    }
+
+    @keyframes sun-rise {
+      from {
+        translate: 0 100%;
+      }
+    }
+
+    @keyframes rule-draw {
+      from {
+        transform: scaleX(0);
+      }
+    }
+
+    /*
+     * Entrada suave abaixo da dobra (só CSS): só as fotos se revelam ao
+     * entrar na tela. O texto nunca fica transparente (leitura e contraste
+     * intactos em qualquer ponto da rolagem).
+     */
+    @supports (animation-timeline: view()) {
+      :is(.l-grid, .l-rail, .c-section-block__grid, .c-feature) .c-card__media {
+        animation: reveal linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 60%;
+      }
+    }
+
+    @keyframes reveal {
+      from {
+        opacity: 0.2;
+        scale: 0.96;
+      }
+    }
+
+    /* ---------- Transições entre páginas (navegação no mesmo site) ---------- */
+    .c-masthead {
+      view-transition-name: hz-masthead;
+    }
+
+    .c-nav {
+      view-transition-name: hz-nav;
+    }
+
+    ::view-transition-group(*) {
+      animation-duration: 420ms;
+      animation-timing-function: var(--ease-out);
+    }
+
+    /*
+     * A foto do cartão vira a capa (nomes post-<id> no style inline do tema).
+     * A classe limita o recorte às fotos: cabeçalho e barra não se deformam.
+     */
+    .c-card__img,
+    .c-article__img {
+      view-transition-class: hz-photo;
+    }
+
+    ::view-transition-old(*.hz-photo),
+    ::view-transition-new(*.hz-photo) {
+      block-size: 100%;
+      object-fit: cover;
+    }
+
+    /* ---------- Troca de tema: o novo modo se abre em círculo a partir do botão ---------- */
+    html:active-view-transition-type(theme)::view-transition-old(root),
+    html:active-view-transition-type(theme)::view-transition-new(root) {
+      animation: none;
+      mix-blend-mode: normal;
+    }
+
+    html:active-view-transition-type(theme)::view-transition-new(root) {
+      animation: theme-reveal 720ms var(--ease-in-out);
+    }
+
+    /* Na troca de tema tudo vai junto no círculo: nada de grupos à parte. */
+    html:active-view-transition-type(theme) :is(.c-masthead, .c-nav, [style*="view-transition-name"]) {
+      view-transition-name: none !important;
+    }
+
+    @keyframes theme-reveal {
+      from {
+        clip-path: circle(0 at var(--vt-x, 100%) var(--vt-y, 0));
+      }
+
+      to {
+        clip-path: circle(150vmax at var(--vt-x, 100%) var(--vt-y, 0));
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Fora das camadas por segurança: @view-transition é at-rule de documento. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}

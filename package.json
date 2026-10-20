@@ -1,0 +1,48 @@
+{
+  "name": "horizonte-diario-blogger",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Tema de periódico digital para Blogger (Horizonte Diario): theme.xml, preview estático generado desde el propio tema, validador y pruebas.",
+  "author": "Michael Härter König",
+  "license": "MIT",
+  "keywords": [
+    "blogger",
+    "blogger-theme",
+    "news",
+    "newspaper",
+    "theme",
+    "accessibility",
+    "seo"
+  ],
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "validate": "node tools/validate.mjs",
+    "preview": "node tools/render-preview.mjs",
+    "build:preview": "node tools/render-preview.mjs",
+    "dev": "node tools/serve.mjs",
+    "lint:js": "eslint .",
+    "lint:css": "stylelint \"src/styles/**/*.css\"",
+    "lint:html": "html-validate \"preview/**/*.html\"",
+    "lint": "npm run lint:js && npm run lint:css && npm run lint:html",
+    "test": "node --test tests/",
+    "check": "npm run build && npm run preview -- --no-build && npm run lint && npm test",
+    "smoke": "node tools/smoke.mjs"
+  },
+  "devDependencies": {
+    "@capsizecss/core": "^4.1.3",
+    "@capsizecss/metrics": "^4.4.0",
+    "@eslint/js": "^10.0.1",
+    "esbuild": "^0.28.2",
+    "eslint": "^10.13.0",
+    "globals": "^17.13.0",
+    "html-validate": "^11.16.4",
+    "saxes": "^6.0.0",
+    "sharp": "^0.35.5",
+    "stylelint": "^17.16.0",
+    "stylelint-config-standard": "^40.0.0"
+  }
+}

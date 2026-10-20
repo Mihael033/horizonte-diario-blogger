@@ -1,0 +1,42 @@
+@layer components {
+  .c-breadcrumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.2em 0;
+    padding: 0;
+    font-size: var(--step--1);
+    list-style: none;
+    color: var(--color-muted);
+  }
+
+  .c-breadcrumbs li {
+    display: flex;
+    align-items: center;
+  }
+
+  /* Divisor: uma barra fina inclinada, desenhada (não é texto lido pelo leitor de tela). */
+  .c-breadcrumbs li + li::before {
+    content: "";
+    inline-size: 1px;
+    block-size: 0.9em;
+    margin-inline: 0.7em;
+    background: currentcolor;
+    transform: rotate(18deg);
+  }
+
+  .c-breadcrumbs a {
+    text-decoration: none;
+    color: var(--color-ink-soft);
+  }
+
+  .c-breadcrumbs a:hover {
+    text-decoration: underline;
+  }
+
+  /* A seção aparece na cor dela. */
+  .c-breadcrumbs a[data-section] {
+    font-weight: 700;
+    color: var(--sec);
+  }
+}

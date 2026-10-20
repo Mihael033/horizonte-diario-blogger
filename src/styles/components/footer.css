@@ -1,0 +1,173 @@
+@layer components {
+  /*
+   * Rodapé: a página termina no horizonte. Um meio-sol grande se apoia na
+   * borda de cima do rodapé (o mesmo sol que nasce na marca, lá no topo).
+   */
+  .c-footer {
+    position: relative;
+    margin-block-start: var(--space-2xl);
+    padding-block: var(--space-xl) var(--space-l);
+    font-size: var(--step--1);
+    color: var(--color-footer-ink);
+    background: var(--color-footer);
+  }
+
+  .c-footer::before {
+    content: "";
+    position: absolute;
+    inset-block-end: 100%;
+    inset-inline-start: max(var(--gutter), calc((100% - var(--container)) / 2 + var(--gutter)));
+    inline-size: 7rem;
+    block-size: 3.5rem;
+    background: var(--color-sun);
+    border-radius: 999px 999px 0 0;
+  }
+
+  .c-footer a {
+    text-decoration: none;
+  }
+
+  .c-footer a:hover {
+    text-decoration: underline;
+  }
+
+  .c-footer :focus-visible {
+    outline-color: var(--color-sun);
+  }
+
+  .c-footer__grid {
+    display: grid;
+    gap: var(--space-l);
+  }
+
+  @media (width >= 48em) {
+    .c-footer__grid {
+      grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (width >= 64em) {
+    .c-footer__grid {
+      grid-template-columns: minmax(0, 2fr) repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .c-footer__logo {
+    font-size: var(--step-3);
+    line-height: 1;
+  }
+
+  .c-footer__logo .c-logo {
+    color: inherit;
+  }
+
+  .c-footer__logo .c-logo__sun {
+    fill: var(--color-sun);
+  }
+
+  /* A "mordida" da lua recorta na cor do fundo em que ela está. */
+  .c-footer__logo .c-logo__bite {
+    fill: var(--color-footer);
+  }
+
+  .c-footer__logo :is(.c-logo__moon, .c-logo__star) {
+    fill: var(--color-footer-ink);
+  }
+
+  .c-footer__tagline,
+  .c-footer__legal-text {
+    max-inline-size: 30em;
+    margin-block-start: var(--space-xs);
+    line-height: 1.55;
+  }
+
+  .c-footer__team {
+    display: grid;
+    gap: var(--space-3xs);
+    margin-block-start: var(--space-xs);
+    padding: 0;
+    list-style: none;
+  }
+
+  .c-footer__legal {
+    margin-block-start: var(--space-l);
+  }
+
+  .c-footer__legal-text {
+    opacity: 0.85;
+  }
+
+  .c-footer__title {
+    margin-block-end: var(--space-xs);
+    font: var(--font-text);
+    font-size: var(--step--1);
+    font-weight: 700;
+    color: var(--color-sun);
+  }
+
+  .c-footer__list {
+    display: grid;
+    gap: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .c-footer__list a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 2.75rem;
+  }
+
+  .c-footer__social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3xs);
+    padding: 0;
+    list-style: none;
+  }
+
+  .c-footer__social a {
+    display: inline-grid;
+    place-items: center;
+    inline-size: 2.75rem;
+    block-size: 2.75rem;
+    border: 1px solid color-mix(in oklab, var(--color-footer-ink) 35%, transparent);
+    border-radius: 50%;
+    transition:
+      background-color var(--dur-1) var(--ease-out),
+      color var(--dur-1) var(--ease-out);
+  }
+
+  .c-footer__social a:hover {
+    color: var(--color-sun-ink);
+    background: var(--color-sun);
+    border-color: var(--color-sun);
+  }
+
+  .c-footer__social .c-icon {
+    inline-size: 1.1rem;
+    block-size: 1.1rem;
+  }
+
+
+  .c-footer__top {
+    font-weight: 600;
+  }
+
+  /* Gadget "Atribución" do Blogger (obrigatório). */
+  .c-footer__attribution {
+    margin-block-start: var(--space-2xs);
+    font-size: var(--step--1);
+    opacity: 0.75;
+  }
+
+  .c-footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-2xs) var(--space-m);
+    margin-block-start: var(--space-xl);
+    padding-block-start: var(--space-s);
+    border-block-start: 1px solid color-mix(in oklab, var(--color-footer-ink) 30%, transparent);
+  }
+}

@@ -1,0 +1,7 @@
+          <!-- HTML9: aviso legal (texto editable en Diseño). -->
+          <b:includable id='main' var='this'>
+            <div class='c-footer__legal'>
+              <h2 class='c-footer__title'><data:title/></h2>
+              <div class='c-footer__legal-text'><data:content/></div>
+            </div>
+          </b:includable>

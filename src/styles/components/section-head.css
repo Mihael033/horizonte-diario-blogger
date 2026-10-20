@@ -1,0 +1,70 @@
+@layer components {
+  /*
+   * Título de bloco apoiado na linha do horizonte (mesmo recurso da marca):
+   * meio-sol da cor da seção, título, régua até a borda e "Ver todo".
+   */
+  .c-section-head {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-xs);
+    margin-block-end: var(--space-m);
+  }
+
+  .c-section-head::before {
+    content: "";
+    inline-size: 0.9em;
+    block-size: 0.45em;
+    flex: none;
+    font-size: var(--step-3);
+    background: var(--sec, var(--color-sun));
+    border-radius: 999px 999px 0 0;
+  }
+
+  .c-section-head__title {
+    font: var(--font-title);
+    font-size: var(--step-3);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+
+  .c-section-head__title a {
+    text-decoration: none;
+  }
+
+  .c-section-head__title a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 0.06em;
+  }
+
+  /* A régua: item vazio, alinhado pela linha de base do título. */
+  .c-section-head__rule {
+    flex: 1;
+    min-inline-size: var(--space-s);
+    block-size: 2px;
+    background: var(--color-horizon);
+  }
+
+  .c-section-head__more {
+    flex: none;
+    font-size: var(--step--1);
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--sec, var(--color-accent));
+  }
+
+  .c-section-head__more:hover {
+    text-decoration: underline;
+  }
+
+  /* Variante pequena (barra lateral, relacionados). */
+  .c-section-head--small {
+    margin-block-end: var(--space-s);
+  }
+
+  .c-section-head--small::before,
+  .c-section-head--small .c-section-head__title {
+    font-size: var(--step-1);
+  }
+}

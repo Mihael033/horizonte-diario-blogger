@@ -1,0 +1,23 @@
+            <!-- Profile1: la marca en el pie y "Quiénes somos" (uno o varios autores). -->
+            <b:includable id='main' var='this'>
+              <section aria-labelledby='about-title' class='c-footer__brand'>
+                <p class='c-footer__logo'>
+                  <a class='c-logo' expr:href='data:blog.homepageUrl'>
+                    <svg aria-hidden='true' class='c-logo__mark' focusable='false' viewBox='0 0 46 23'><circle class='c-logo__sun' cx='23' cy='23' r='19'/><circle class='c-logo__star' cx='8' cy='8' r='1.4'/><circle class='c-logo__star' cx='15' cy='15.5' r='1'/><circle class='c-logo__moon' cx='31' cy='11' r='7.5'/><circle class='c-logo__bite' cx='34.6' cy='8.4' r='6.2'/></svg>
+                    <span class='c-logo__name'><data:blog.title/></span>
+                  </a>
+                </p>
+                <h2 class='u-sr' id='about-title'><data:title/></h2>
+                <b:if cond='data:team'>
+                  <ul class='c-footer__team'>
+                    <b:loop values='data:authors' var='author'>
+                      <li><a expr:href='data:author.userUrl' rel='author'><data:author.displayname/></a></li>
+                    </b:loop>
+                  </ul>
+                <b:else/>
+                  <b:if cond='data:aboutme'>
+                    <p class='c-footer__tagline'><data:aboutme/></p>
+                  </b:if>
+                </b:if>
+              </section>
+            </b:includable>

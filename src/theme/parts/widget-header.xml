@@ -1,0 +1,32 @@
+            <!-- Header1: la marca sobre la línea del horizonte. h1 solo en la portada; en el resto
+                 el h1 es el titular. Si se sube un logo en Diseño, sustituye al sol y al nombre. -->
+            <b:includable id='main' var='this'>
+              <div class='c-brand'>
+                <span aria-hidden='true' class='c-brand__rule c-brand__rule--start'/>
+                <b:if cond='data:view.isHomepage'>
+                  <h1 class='c-brand__title'><b:include name='brandLink'/></h1>
+                <b:else/>
+                  <p class='c-brand__title'><b:include name='brandLink'/></p>
+                </b:if>
+                <span aria-hidden='true' class='c-brand__rule'/>
+              </div>
+              <b:if cond='data:this.description'>
+                <p class='c-brand__tagline'><data:this.description/></p>
+              </b:if>
+            </b:includable>
+
+            <b:includable id='brandLink'>
+              <a class='c-logo' expr:href='data:blog.homepageUrl'>
+                <b:if cond='data:sourceUrl and data:imagePlacement in {"REPLACE", "BEFORE_DESCRIPTION"}'>
+                  <img class='c-logo__img' expr:alt='data:blog.title' expr:height='data:height' expr:src='data:sourceUrl' expr:width='data:width'/>
+                <b:else/>
+                  <b:include name='logoMark'/>
+                  <span class='c-logo__name'><data:blog.title/></span>
+                </b:if>
+              </a>
+            </b:includable>
+
+            <!-- El sol nace de la línea de base; en modo oscuro se pone y sale la luna. -->
+            <b:includable id='logoMark'>
+              <svg aria-hidden='true' class='c-logo__mark' focusable='false' viewBox='0 0 46 23'><circle class='c-logo__sun' cx='23' cy='23' r='19'/><circle class='c-logo__star' cx='8' cy='8' r='1.4'/><circle class='c-logo__star' cx='15' cy='15.5' r='1'/><circle class='c-logo__moon' cx='31' cy='11' r='7.5'/><circle class='c-logo__bite' cx='34.6' cy='8.4' r='6.2'/></svg>
+            </b:includable>

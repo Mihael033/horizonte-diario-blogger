@@ -1,0 +1,281 @@
+@layer components {
+  /*
+   * Artigo. Desktop em três colunas: sumário fixo à esquerda, texto no
+   * centro (~68 caracteres) e respiro à direita. Cabeçalho e texto
+   * compartilham a mesma borda esquerda.
+   */
+  .c-article__header {
+    display: grid;
+    gap: var(--space-s);
+    padding-block: var(--space-m) var(--space-l);
+  }
+
+  .c-article__title {
+    max-inline-size: 22ch;
+    font: var(--font-title);
+    font-size: var(--step-4);
+    font-weight: 600;
+    line-height: 1.04;
+    letter-spacing: -0.024em;
+    text-wrap: balance;
+  }
+
+  .c-article__dek {
+    max-inline-size: 40em;
+    font-size: var(--step-1);
+    line-height: 1.4;
+    color: var(--color-ink-soft);
+  }
+
+  .c-article__dek:empty {
+    display: none;
+  }
+
+  .c-article__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-s) var(--space-m);
+    padding-block-start: var(--space-s);
+    border-block-start: 1px solid var(--color-rule);
+  }
+
+  /* ---------- Assinatura ---------- */
+  .c-byline {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: var(--step--1);
+    line-height: 1.35;
+  }
+
+  .c-byline__avatar {
+    display: grid;
+    place-items: center;
+    inline-size: 2.75rem;
+    block-size: 2.75rem;
+    flex: none;
+    overflow: hidden;
+    font-weight: 700;
+    color: var(--color-accent-ink);
+    background: var(--sec, var(--color-accent));
+    border-radius: 50%;
+  }
+
+  .c-byline__avatar img {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  /* Sem foto do autor: o sol da marca sobre a cor da seção. */
+  .c-byline__mark {
+    inline-size: 60%;
+    margin-block-start: 22%;
+    fill: var(--color-sun);
+  }
+
+  .c-byline__comments {
+    color: var(--color-accent);
+  }
+
+  .c-byline__name {
+    font-weight: 600;
+  }
+
+  .c-byline__name a {
+    text-decoration: none;
+  }
+
+  .c-byline__name a:hover {
+    text-decoration: underline;
+  }
+
+  .c-byline__date {
+    display: flex;
+    color: var(--color-muted);
+    flex-wrap: wrap;
+    gap: 0 0.75em;
+  }
+
+  /* ---------- Capa: panorâmica (21:9) no desktop, o formato do horizonte ---------- */
+  .c-article__cover {
+    margin-block-end: var(--space-l);
+  }
+
+  .c-article__img {
+    inline-size: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background: var(--color-surface);
+  }
+
+  .c-article__caption {
+    padding-block-start: var(--space-2xs);
+    font-size: var(--step--1);
+    line-height: 1.45;
+    color: var(--color-muted);
+  }
+
+  /* Celular: a capa sangra até as bordas da tela. */
+  @media (width < 40em) {
+    .c-article__cover {
+      margin-inline: calc(-1 * var(--gutter));
+    }
+
+    .c-article__caption {
+      padding-inline: var(--gutter);
+    }
+  }
+
+  @media (width >= 64em) {
+    .c-article__img {
+      aspect-ratio: 21 / 9;
+    }
+  }
+
+  /*
+   * Sem JS: a 1ª imagem do corpo é a capa (featuredImage do Blogger = primeira
+   * imagem da entrada), esteja onde estiver. Não mostrar duas vezes.
+   * Com JS, quem decide é o script (põe hidden no bloco).
+   */
+  .no-js .c-article:has(.c-article__cover) .c-prose > :nth-child(1 of .separator, .tr-caption-container) {
+    display: none;
+  }
+
+  /* ---------- Corpo ---------- */
+  .c-article__layout {
+    display: grid;
+    gap: var(--space-l);
+  }
+
+  .c-article__aside,
+  .c-article__body {
+    min-inline-size: 0;
+  }
+
+  .c-article__footer {
+    display: grid;
+    gap: var(--space-m);
+    margin-block-start: var(--space-xl);
+    padding-block-start: var(--space-m);
+    border-block-start: 2px solid var(--color-horizon);
+  }
+
+  .c-article__footer-label {
+    margin-block-end: var(--space-2xs);
+    font-size: var(--step--1);
+    font-weight: 600;
+    color: var(--color-muted);
+  }
+
+  @media (width >= 64em) {
+    .c-article__header,
+    .c-article__layout {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 44rem) minmax(0, 1fr);
+      column-gap: var(--space-xl);
+    }
+
+    .c-article__header > * {
+      grid-column: 2 / 4;
+    }
+
+    .c-article__header .c-article__meta {
+      grid-column: 2;
+    }
+
+    .c-article__aside {
+      grid-column: 1;
+      grid-row: 1;
+      justify-self: end;
+      inline-size: min(100%, 15rem);
+    }
+
+    .c-article__body {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .c-article__title {
+      font-size: var(--step-5);
+    }
+  }
+
+  /* ---------- Caixa do autor ---------- */
+  .c-authorbox {
+    display: flex;
+    gap: var(--space-s);
+    align-items: flex-start;
+    padding: var(--space-s);
+    font-size: var(--step--1);
+    line-height: 1.5;
+    background: var(--color-surface);
+    border-radius: var(--radius-m);
+  }
+
+  .c-authorbox__avatar {
+    inline-size: 4rem;
+    block-size: 4rem;
+  }
+
+  .c-authorbox__name {
+    font: var(--font-title);
+    font-size: var(--step-1);
+    font-weight: 600;
+  }
+
+  .c-authorbox__bio {
+    margin-block-start: var(--space-3xs);
+    color: var(--color-ink-soft);
+  }
+
+  /* ---------- Noticia anterior / siguiente ---------- */
+  .c-postnav {
+    display: grid;
+    gap: var(--space-s);
+    margin-block-start: var(--space-xl);
+    padding-block-start: var(--space-s);
+    border-block-start: 2px solid var(--color-horizon);
+  }
+
+  @media (width >= 48em) {
+    .c-postnav {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .c-postnav__link--newer {
+      grid-column: 2;
+      text-align: end;
+    }
+  }
+
+  .c-postnav__link {
+    display: grid;
+    gap: 0.15em;
+    text-decoration: none;
+  }
+
+  .c-postnav__dir {
+    font-size: var(--step--1);
+    color: var(--color-muted);
+  }
+
+  .c-postnav__title {
+    font: var(--font-title);
+    font-size: var(--step-1);
+    font-weight: 600;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
+  .c-postnav__link:hover .c-postnav__title {
+    text-decoration: underline;
+    text-decoration-thickness: 0.06em;
+  }
+
+  /* ---------- Relacionadas ---------- */
+  .c-related {
+    margin-block-start: var(--space-2xl);
+  }
+}

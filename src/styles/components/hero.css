@@ -1,0 +1,70 @@
+@layer components {
+  /* Destaque da portada: principal + dois secundários (posts 0, 1 e 2 do Blog1). */
+  .c-hero {
+    padding-block-end: var(--space-s);
+  }
+
+  .c-hero__grid {
+    display: grid;
+    gap: var(--space-l);
+  }
+
+  .c-hero__side {
+    display: grid;
+    gap: var(--space-m);
+    align-content: start;
+  }
+
+  /* Celular: secundários como lista com miniatura, para a portada não ficar longa. */
+  @media (width < 40em) {
+    .c-hero__side .c-card--secondary {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 6rem;
+      gap: var(--space-s);
+      padding-block-start: var(--space-s);
+      border-block-start: 1px solid var(--color-rule);
+    }
+
+    .c-hero__side .c-card--secondary .c-card__media {
+      grid-column: 2;
+      grid-row: 1;
+      aspect-ratio: 1;
+    }
+
+    .c-hero__side .c-card--secondary .c-card__body {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .c-hero__side .c-card--secondary .c-card__title {
+      font-size: var(--step-1);
+    }
+
+    .c-hero__side .c-card--secondary .c-card__excerpt {
+      display: none;
+    }
+  }
+
+  @media (width >= 40em) and (width < 64em) {
+    .c-hero__side {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (width >= 64em) {
+    .c-hero {
+      padding-block: var(--space-2xs) var(--space-m);
+    }
+
+    .c-hero__grid {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+      gap: var(--space-xl);
+    }
+
+    .c-hero__side {
+      gap: var(--space-l);
+      padding-inline-start: var(--space-xl);
+      border-inline-start: 1px solid var(--color-rule);
+    }
+  }
+}

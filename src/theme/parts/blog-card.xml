@@ -1,0 +1,66 @@
+            <!-- ===== Blog1 · tarjetas ===== -->
+            <!-- La variante la da el contenedor: [data-card='secondary'|'standard'|'list'|'row'|'compact'] .c-card.
+                 El JS clona #tpl-card con el mismo marcado (y añade c-card con su variante). Toda la tarjeta
+                 es clicable por el enlace del titular (::after estirado); la sección es otro enlace.
+                 La sección sale de {{SECTION_OF:post}}: Blogger ordena las etiquetas alfabéticamente. -->
+
+            <b:includable id='heroLead' var='post'>
+              <b:with value='{{SECTION_OF:post}}' var='section'>
+                <article class='c-card c-card--lead' expr:data-post-id='data:post.id' expr:data-section='data:section.name'>
+                  <div class='c-card__media'>
+                    <b:if cond='data:post.featuredImage'>
+                      <b:if cond='data:post.featuredImage.isResizable'>
+                        <img alt='' class='c-card__img' decoding='async' fetchpriority='high' height='675' sizes='(min-width: 64em) 56vw, 100vw' width='1200' expr:src='resizeImage(data:post.featuredImage, 1200, "16:9")' expr:srcset='sourceSet(data:post.featuredImage, [400, 800, 1200, 1600], "16:9")' expr:style='"view-transition-name: post-" + data:post.id'/>
+                      <b:else/>
+                        <img alt='' class='c-card__img' decoding='async' fetchpriority='high' height='675' width='1200' expr:src='data:post.featuredImage' expr:style='"view-transition-name: post-" + data:post.id'/>
+                      </b:if>
+                    <b:else/>
+                      <span aria-hidden='true' class='c-card__placeholder'/>
+                    </b:if>
+                  </div>
+                  <div class='c-card__body'>
+                    <b:include data='section' name='cardSection'/>
+                    <h3 class='c-card__title'><a class='c-card__link' expr:href='data:post.url'><data:post.title/></a></h3>
+                    <p class='c-card__excerpt'><b:eval expr='snippet(data:post.body, {length: 220, links: false, linebreaks: false})'/></p>
+                    <b:include data='post' name='cardMeta'/>
+                  </div>
+                </article>
+              </b:with>
+            </b:includable>
+
+            <b:includable id='card' var='post'>
+              <b:with value='{{SECTION_OF:post}}' var='section'>
+                <article class='c-card' expr:data-post-id='data:post.id' expr:data-section='data:section.name'>
+                  <div class='c-card__media'>
+                    <b:if cond='data:post.featuredImage'>
+                      <b:if cond='data:post.featuredImage.isResizable'>
+                        <img alt='' class='c-card__img' decoding='async' height='450' loading='lazy' sizes='auto, (min-width: 64em) 24rem, (min-width: 40em) 45vw, 100vw' width='800' expr:src='resizeImage(data:post.featuredImage, 800, "16:9")' expr:srcset='sourceSet(data:post.featuredImage, [400, 800, 1200], "16:9")' expr:style='"view-transition-name: post-" + data:post.id'/>
+                      <b:else/>
+                        <img alt='' class='c-card__img' decoding='async' height='450' loading='lazy' width='800' expr:src='data:post.featuredImage' expr:style='"view-transition-name: post-" + data:post.id'/>
+                      </b:if>
+                    <b:else/>
+                      <span aria-hidden='true' class='c-card__placeholder'/>
+                    </b:if>
+                  </div>
+                  <div class='c-card__body'>
+                    <b:include data='section' name='cardSection'/>
+                    <h3 class='c-card__title'><a class='c-card__link' expr:href='data:post.url'><data:post.title/></a></h3>
+                    <p class='c-card__excerpt'><b:eval expr='snippet(data:post.body, {length: 150, links: false, linebreaks: false})'/></p>
+                    <b:include data='post' name='cardMeta'/>
+                  </div>
+                </article>
+              </b:with>
+            </b:includable>
+
+            <b:includable id='cardSection' var='label'>
+              <b:if cond='data:label'>
+                <a class='c-card__section' expr:href='data:label.url'><data:label.name/></a>
+              </b:if>
+            </b:includable>
+
+            <b:includable id='cardMeta' var='post'>
+              <p class='c-card__meta'>
+                <time class='c-card__date' data-js='date' expr:datetime='data:post.date.iso8601'><data:post.date/></time>
+                <span class='c-card__readtime' data-js='readtime' hidden='hidden'/>
+              </p>
+            </b:includable>

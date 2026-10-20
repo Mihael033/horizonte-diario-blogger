@@ -1,0 +1,186 @@
+            <!-- ===== Blog1 · artículo y página estática ===== -->
+
+            <b:includable id='article' var='post'>
+              <b:with value='{{SECTION_OF:post}}' var='section'>
+                <article class='c-article' expr:data-post-id='data:post.id' expr:data-section='data:section.name'>
+                  <header class='c-article__header'>
+                    <b:include data='post' name='breadcrumbs'/>
+                    <h1 class='c-article__title'><data:post.title/></h1>
+                    <div class='c-article__meta'>
+                      <b:include data='post' name='articleMeta'/>
+                      <b:include data='post' name='share'/>
+                    </div>
+                  </header>
+
+                  <!-- La portada es la primera imagen de la entrada. El JS oculta esa imagen dentro
+                       del cuerpo (y reutiliza su alt y su pie) para que no salga dos veces. -->
+                  <b:if cond='data:post.featuredImage'>
+                    <figure class='c-article__cover'>
+                      <b:if cond='data:post.featuredImage.isResizable'>
+                        <img alt='' class='c-article__img' data-js='cover-img' decoding='async' fetchpriority='high' height='900' sizes='(min-width: 84rem) 80rem, 100vw' width='1600' expr:src='resizeImage(data:post.featuredImage, 1600, "16:9")' expr:srcset='sourceSet(data:post.featuredImage, [400, 800, 1200, 1600], "16:9")' expr:style='"view-transition-name: post-" + data:post.id'/>
+                      <b:else/>
+                        <img alt='' class='c-article__img' data-js='cover-img' decoding='async' fetchpriority='high' height='900' width='1600' expr:src='data:post.featuredImage' expr:style='"view-transition-name: post-" + data:post.id'/>
+                      </b:if>
+                      <figcaption class='c-article__caption' data-js='cover-caption' hidden='hidden'/>
+                    </figure>
+                  </b:if>
+
+                  <div class='c-article__layout'>
+                    <div class='c-article__aside'>
+                      <nav aria-labelledby='toc-title' class='c-toc' data-js='toc' hidden='hidden'>
+                        <h2 class='c-toc__title' id='toc-title'>En este artículo</h2>
+                        <ol class='c-toc__list' data-js='toc-list'/>
+                      </nav>
+                    </div>
+                    <div class='c-article__body'>
+                      <div class='c-prose' data-js='post-body' id='post-body'><data:post.body/></div>
+                      <b:include data='post' name='articleFooter'/>
+                    </div>
+                  </div>
+                </article>
+                <b:include data='post' name='postNav'/>
+                <b:include data='section' name='related'/>
+                <b:if cond='data:post.allowComments'>
+                  <section aria-labelledby='comments-title' class='c-comments' id='comments-section'>
+                    <div class='c-comments__inner'>
+                      <header class='c-section-head c-section-head--small'>
+                        <h2 class='c-section-head__title' id='comments-title'>Comentarios</h2>
+                        <span aria-hidden='true' class='c-section-head__rule'/>
+                      </header>
+                      <b:include data='post' name='commentPicker'/>
+                    </div>
+                  </section>
+                </b:if>
+              </b:with>
+            </b:includable>
+
+            <!-- Migas: Portada / Sección / (titular, solo para lectores de pantalla). -->
+            <b:includable id='breadcrumbs' var='post'>
+              <b:with value='{{SECTION_OF:post}}' var='section'>
+                <nav aria-label='Ruta de navegación' class='c-breadcrumbs'>
+                  <ol>
+                    <li><a expr:href='data:blog.homepageUrl'>Portada</a></li>
+                    <b:if cond='data:section'>
+                      <li><a expr:data-section='data:section.name' expr:href='data:section.url'><data:section.name/></a></li>
+                    </b:if>
+                    <li aria-current='page' class='u-sr'><data:post.title/></li>
+                  </ol>
+                </nav>
+              </b:with>
+            </b:includable>
+
+            <b:includable id='articleMeta' var='post'>
+              <div class='c-byline'>
+                <span aria-hidden='true' class='c-byline__avatar'>
+                  <b:if cond='data:post.author.authorPhoto.image'>
+                    <img alt='' decoding='async' height='44' loading='lazy' width='44' expr:src='resizeImage(data:post.author.authorPhoto.image, 88, "1:1")'/>
+                  <b:else/>
+                    <svg class='c-byline__mark' focusable='false' viewBox='0 0 46 23'><circle cx='23' cy='23' r='19'/></svg>
+                  </b:if>
+                </span>
+                <div>
+                  <p class='c-byline__name'>Por <b:if cond='data:post.author.profileUrl'><a expr:href='data:post.author.profileUrl' rel='author'><data:post.author.name/></a><b:else/><data:post.author.name/></b:if></p>
+                  <p class='c-byline__date'>
+                    <time data-js='date' expr:datetime='data:post.date.iso8601'><data:post.date/></time>
+                    <span data-js='readtime' hidden='hidden'/>
+                    <b:if cond='data:post.allowComments and data:post.numberOfComments &gt; 0'>
+                      <a class='c-byline__comments' href='#comments-section'><b:if cond='data:post.numberOfComments == 1'>1 comentario<b:else/><data:post.numberOfComments/> comentarios</b:if></a>
+                    </b:if>
+                  </p>
+                </div>
+              </div>
+            </b:includable>
+
+            <!-- Compartir: los enlaces funcionan sin JS (URL de la noticia). Con JS se añade el
+                 titular al texto, "Copiar enlace" y el menú nativo del móvil. -->
+            <b:includable id='share' var='post'>
+              <div aria-label='Compartir esta noticia' class='c-share' data-js='share' expr:data-title='data:post.title' expr:data-url='data:post.url.canonical' role='group'>
+                <p aria-hidden='true' class='c-share__label'>Compartir</p>
+                <ul class='c-share__list'>
+                  <li><a class='c-share__btn' data-network='whatsapp' expr:href='"https://wa.me/?text=" + data:post.url.canonical' rel='noopener' target='_blank'><svg aria-hidden='true' class='c-icon' focusable='false'><use href='#i-WhatsApp'/></svg><span class='u-sr'>Compartir en WhatsApp (se abre en otra ventana)</span></a></li>
+                  <li><a class='c-share__btn' data-network='x' expr:href='"https://x.com/intent/post?url=" + data:post.url.canonical' rel='noopener' target='_blank'><svg aria-hidden='true' class='c-icon' focusable='false'><use href='#i-X'/></svg><span class='u-sr'>Compartir en X (se abre en otra ventana)</span></a></li>
+                  <li><a class='c-share__btn' data-network='facebook' expr:href='"https://www.facebook.com/sharer/sharer.php?u=" + data:post.url.canonical' rel='noopener' target='_blank'><svg aria-hidden='true' class='c-icon' focusable='false'><use href='#i-Facebook'/></svg><span class='u-sr'>Compartir en Facebook (se abre en otra ventana)</span></a></li>
+                  <li><button class='c-share__btn' data-js='share-copy' hidden='hidden' type='button'><svg aria-hidden='true' class='c-icon' focusable='false'><use href='#i-link'/></svg><span class='u-sr'>Copiar enlace</span></button></li>
+                  <li><button class='c-share__btn' data-js='share-native' hidden='hidden' type='button'><svg aria-hidden='true' class='c-icon' focusable='false'><use href='#i-share'/></svg><span class='u-sr'>Más opciones para compartir</span></button></li>
+                </ul>
+              </div>
+            </b:includable>
+
+            <b:includable id='articleFooter' var='post'>
+              <footer class='c-article__footer'>
+                <b:if cond='data:post.labels'>
+                  <div>
+                    <p class='c-article__footer-label' id='tags-title'>Temas</p>
+                    <ul aria-labelledby='tags-title' class='c-tags'>
+                      <b:loop values='data:post.labels' var='label'>
+                        <li><a class='c-tag' expr:href='data:label.url' rel='tag'><b:attr cond='data:label.name in {{SECTIONS}}' expr:value='data:label.name' name='data-section'/><data:label.name/></a></li>
+                      </b:loop>
+                    </ul>
+                  </div>
+                </b:if>
+                <b:include data='post' name='share'/>
+                <b:if cond='data:post.author.aboutMe'>
+                  <div class='c-authorbox'>
+                    <span aria-hidden='true' class='c-byline__avatar c-authorbox__avatar'>
+                      <b:if cond='data:post.author.authorPhoto.image'>
+                        <img alt='' decoding='async' height='64' loading='lazy' width='64' expr:src='resizeImage(data:post.author.authorPhoto.image, 128, "1:1")'/>
+                      <b:else/>
+                        <svg class='c-byline__mark' focusable='false' viewBox='0 0 46 23'><circle cx='23' cy='23' r='19'/></svg>
+                      </b:if>
+                    </span>
+                    <div>
+                      <p class='c-authorbox__name'><data:post.author.name/></p>
+                      <p class='c-authorbox__bio'><data:post.author.aboutMe/></p>
+                    </div>
+                  </div>
+                </b:if>
+              </footer>
+            </b:includable>
+
+            <b:includable id='postNav' var='post'>
+              <b:if cond='data:newerPageUrl or data:olderPageUrl'>
+                <nav aria-label='Otras noticias' class='c-postnav'>
+                  <b:if cond='data:olderPageUrl'>
+                    <a class='c-postnav__link c-postnav__link--older' expr:href='data:olderPageUrl' rel='prev'>
+                      <span class='c-postnav__dir'>Noticia anterior</span>
+                      <span class='c-postnav__title'><data:olderPageTitle/></span>
+                    </a>
+                  </b:if>
+                  <b:if cond='data:newerPageUrl'>
+                    <a class='c-postnav__link c-postnav__link--newer' expr:href='data:newerPageUrl' rel='next'>
+                      <span class='c-postnav__dir'>Noticia siguiente</span>
+                      <span class='c-postnav__title'><data:newerPageTitle/></span>
+                    </a>
+                  </b:if>
+                </nav>
+              </b:if>
+            </b:includable>
+
+            <!-- Relacionadas: el JS trae del feed las últimas de la sección (excluye la noticia
+                 actual por el data-post-id del artículo). Carrusel en móvil, rejilla de 3 en escritorio. -->
+            <b:includable id='related' var='label'>
+              <b:if cond='data:label'>
+                <section aria-labelledby='related-title' class='c-related' data-count='3' data-js='related' expr:data-label='data:label.name' expr:data-section='data:label.name'>
+                  <header class='c-section-head'>
+                    <h2 class='c-section-head__title' id='related-title'>Más de <data:label.name/></h2>
+                    <span aria-hidden='true' class='c-section-head__rule'/>
+                    <a class='c-section-head__more' expr:href='data:label.url'>Ver todo<span class='u-sr'> de <data:label.name/></span></a>
+                  </header>
+                  <div class='l-rail' data-card='standard' data-js='card-list'>
+                    <div aria-hidden='true' class='c-card c-card--skeleton'/>
+                    <div aria-hidden='true' class='c-card c-card--skeleton'/>
+                    <div aria-hidden='true' class='c-card c-card--skeleton'/>
+                  </div>
+                </section>
+              </b:if>
+            </b:includable>
+
+            <b:includable id='staticPage' var='post'>
+              <article class='p-static__page' expr:data-post-id='data:post.id'>
+                <header class='p-static__head'>
+                  <nav aria-label='Ruta de navegación' class='c-breadcrumbs'><ol><li><a expr:href='data:blog.homepageUrl'>Portada</a></li><li aria-current='page'><data:post.title/></li></ol></nav>
+                  <h1 class='p-static__title'><data:post.title/></h1>
+                </header>
+                <div class='c-prose p-static__body' data-js='post-body' id='post-body'><data:post.body/></div>
+              </article>
+            </b:includable>

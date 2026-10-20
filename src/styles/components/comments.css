@@ -1,0 +1,170 @@
+@layer components {
+  /*
+   * Comentários nativos do Blogger (threaded). As classes são do Blogger,
+   * não nossas: a lista é marcação do tema; o formulário é um iframe.
+   */
+  .c-comments {
+    margin-block-start: var(--space-2xl);
+  }
+
+  .c-comments__inner {
+    max-inline-size: 44rem;
+  }
+
+  @media (width >= 64em) {
+    .c-comments__inner {
+      margin-inline: auto;
+    }
+  }
+
+  .comments .comments-content {
+    margin-block-end: var(--space-m);
+  }
+
+  .comments :is(ol, ul) {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .comments .comment {
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    gap: var(--space-2xs) var(--space-s);
+    padding-block: var(--space-s);
+    border-block-start: 1px solid var(--color-rule);
+  }
+
+  .comments .avatar-image-container {
+    inline-size: 2.5rem;
+    block-size: 2.5rem;
+    overflow: hidden;
+    background: var(--color-surface-2);
+    border-radius: 50%;
+  }
+
+  .comments .avatar-image-container img {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  .comments .comment-block {
+    min-inline-size: 0;
+  }
+
+  .comments .comment-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 var(--space-xs);
+    font-size: var(--step--1);
+  }
+
+  .comments .comment-header .user {
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .comments .comment-header .user a {
+    text-decoration: none;
+  }
+
+  /* Selo do autor do blog. */
+  .comments .comment-header .blog-author {
+    display: inline-block;
+    inline-size: 0.8em;
+    block-size: 0.4em;
+    background: var(--color-sun);
+    border-radius: 999px 999px 0 0;
+  }
+
+  .comments .datetime,
+  .comments .datetime a {
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+
+  .comments .comment-content {
+    margin-block: var(--space-3xs) var(--space-2xs);
+    font-size: var(--step-0);
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+  }
+
+  .comments .comment-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    font-size: var(--step--1);
+  }
+
+  .comments .comment-actions a,
+  .comments .thread-toggle a,
+  .comments .continue a {
+    font-weight: 600;
+    color: var(--color-accent);
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .comments .comment-actions a:hover,
+  .comments .continue a:hover {
+    text-decoration: underline;
+  }
+
+  /* Respostas: recuo com o trilho da cor da linha. */
+  .comments .comment-replies {
+    grid-column: 2;
+    margin-block-start: var(--space-2xs);
+    padding-inline-start: var(--space-s);
+    border-inline-start: 2px solid var(--color-rule);
+  }
+
+  .comments .comment-replies .comment:first-child {
+    border-block-start: 0;
+  }
+
+  .comments .thread-toggle {
+    display: inline-flex;
+    gap: 0.4em;
+    font-size: var(--step--1);
+  }
+
+  .comments .thread-arrow {
+    display: none;
+  }
+
+  .comments .continue {
+    padding-block: var(--space-s);
+    border-block-start: 1px solid var(--color-rule);
+  }
+
+  .comments .comment-replybox-single,
+  .comments .comment-form {
+    grid-column: 1 / -1;
+  }
+
+  /* O iframe do formulário é claro por dentro: moldura neutra nos dois modos. */
+  .comments #comment-editor {
+    inline-size: 100%;
+    min-block-size: 14rem;
+    margin-block-start: var(--space-s);
+    color-scheme: light;
+    background: canvas;
+    border: 1px solid var(--color-rule);
+    border-radius: var(--radius-m);
+  }
+
+  .comments .comment-footer,
+  .comments .comment-form > p {
+    font-size: var(--step--1);
+    color: var(--color-ink-soft);
+  }
+
+  /* Controles de administração: escondidos como no CSS padrão do Blogger
+     (o Blogger injeta um estilo sem camada para quem é admin, e ele vence). */
+  .comments .item-control {
+    display: none;
+  }
+}

@@ -1,0 +1,211 @@
+@layer components {
+  /* ---------- Lo más leído (PopularPosts): a ordem é informação, por isso o número ---------- */
+  .c-ranked {
+    display: grid;
+    counter-reset: rank;
+  }
+
+  .c-ranked__item {
+    display: grid;
+    grid-template-columns: 2.25rem minmax(0, 1fr);
+    gap: var(--space-xs);
+    padding-block: var(--space-xs);
+    border-block-end: 1px solid var(--color-rule);
+    counter-increment: rank;
+  }
+
+  .c-ranked__item:first-child {
+    padding-block-start: 0;
+  }
+
+  .c-ranked__item:last-child {
+    border-block-end: 0;
+  }
+
+  .c-ranked__item::before {
+    content: counter(rank);
+    font: var(--font-title);
+    font-size: var(--step-4);
+    font-weight: 500;
+    line-height: 0.85;
+    color: var(--color-accent);
+    font-variant-numeric: lining-nums;
+  }
+
+  /* ---------- Etiquetas (Label) ---------- */
+  .c-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+  }
+
+  .c-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
+    min-block-size: 2.75rem;
+    padding: 0.3em 0.9em;
+    font-size: var(--step--1);
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    color: var(--color-ink);
+    border: 1px solid var(--color-rule);
+    border-radius: var(--radius-pill);
+    transition:
+      border-color var(--dur-1) var(--ease-out),
+      background-color var(--dur-1) var(--ease-out);
+  }
+
+  .c-tag[data-section]::before {
+    content: "";
+    inline-size: 0.6em;
+    block-size: 0.3em;
+    background: var(--sec);
+    border-radius: 999px 999px 0 0;
+  }
+
+  .c-tag:hover {
+    border-color: var(--sec, var(--color-ink));
+    background: var(--color-surface);
+  }
+
+  .c-tag__count {
+    font-weight: 400;
+    color: var(--color-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---------- Boletín: o sol nasce atrás da linha, no pé do cartão ---------- */
+  .c-newsletter {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: var(--space-m) var(--space-m) calc(var(--space-m) + 4.5rem);
+    color: var(--color-footer-ink);
+    background: var(--color-footer);
+    border-radius: var(--radius-m);
+  }
+
+  /* O "mar": cobre a metade de baixo do sol, com a linha do horizonte no topo. */
+  .c-newsletter::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 0;
+    z-index: -1;
+    block-size: var(--space-m);
+    background: var(--color-footer);
+    border-block-start: 1px solid color-mix(in oklab, var(--color-footer-ink) 55%, transparent);
+  }
+
+  .c-newsletter::after {
+    content: "";
+    position: absolute;
+    inset-block-end: calc(var(--space-m) - 3.5rem);
+    inset-inline-end: var(--space-m);
+    z-index: -2;
+    inline-size: 7rem;
+    block-size: 7rem;
+    background: var(--color-sun);
+    border-radius: 50%;
+  }
+
+  .c-newsletter__title {
+    font: var(--font-title);
+    font-size: var(--step-2);
+    font-weight: 600;
+    line-height: 1.1;
+  }
+
+  /* O texto e o formulário vêm do conteúdo do gadget (Diseño → editar). */
+  .c-newsletter__body > p:first-child,
+  .c-newsletter__text {
+    margin-block: var(--space-2xs) var(--space-s);
+    font-size: var(--step--1);
+  }
+
+  /* O formulário vem do gadget: nada dele pode alargar o cartão. */
+  .c-newsletter__form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2xs);
+  }
+
+  .c-newsletter__form :is(input, button) {
+    inline-size: 100%;
+    min-inline-size: 0;
+  }
+
+  .c-newsletter__label {
+    font-size: var(--step--1);
+    font-weight: 600;
+  }
+
+  .c-newsletter__input {
+    min-block-size: 2.75rem;
+    padding-inline: var(--space-s);
+    color: var(--color-ink);
+    background: var(--color-bg);
+    border: 2px solid transparent;
+    border-radius: var(--radius-pill);
+  }
+
+  .c-newsletter__input:focus-visible {
+    outline-color: var(--color-sun);
+  }
+
+  .c-newsletter :is(.c-button, .c-newsletter__submit):focus-visible {
+    outline-color: var(--color-sun);
+  }
+
+  .c-newsletter__submit {
+    min-block-size: 2.75rem;
+    padding: 0.5em 1.25em;
+    font-size: var(--step--1);
+    font-weight: 700;
+    color: var(--color-sun-ink);
+    background: var(--color-sun);
+    border-radius: var(--radius-pill);
+    transition: background-color var(--dur-1) var(--ease-out);
+  }
+
+  .c-newsletter__submit:hover {
+    background: color-mix(in oklab, var(--color-sun) 88%, var(--color-ink));
+  }
+
+  .c-newsletter__legal,
+  .c-newsletter__note {
+    max-inline-size: 70%;
+    margin-block-start: var(--space-2xs);
+    font-size: var(--step--1);
+    opacity: 0.85;
+  }
+
+  /* ---------- Gadgets nativos que a redação adicionar pelo Diseño ---------- */
+  .l-sidebar .widget > .title,
+  .l-sidebar .widget > h2,
+  .l-sidebar .widget > h3 {
+    margin-block-end: var(--space-s);
+    padding-block-end: var(--space-2xs);
+    font: var(--font-title);
+    font-size: var(--step-1);
+    font-weight: 600;
+    line-height: 1.15;
+    border-block-end: 2px solid var(--color-horizon);
+  }
+
+  .l-sidebar .widget-content {
+    font-size: var(--step--1);
+  }
+
+  .l-sidebar .widget-content :is(ul, ol) {
+    display: grid;
+    gap: var(--space-3xs);
+    padding-inline-start: 1.1em;
+  }
+
+  .l-sidebar .widget-content a {
+    color: var(--color-accent);
+  }
+}

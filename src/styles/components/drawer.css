@@ -1,0 +1,107 @@
+@layer components {
+  /* Menu ou busca abertos: o JS põe has-overlay no html e a página para de rolar. */
+  .has-overlay {
+    overflow: hidden;
+  }
+
+  /* Véu atrás do menu aberto e da busca (o JS alterna `hidden`). Fica sob a barra fixa. */
+  .c-scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 39;
+    background: color-mix(in oklab, var(--color-ink) 55%, transparent);
+    transition: opacity var(--dur-2) var(--ease-out);
+  }
+
+  @starting-style {
+    .c-scrim {
+      opacity: 0;
+    }
+  }
+
+  /*
+   * Menu no celular e no tablet: a mesma lista de seções vira um painel
+   * lateral (uma LinkList só, nada duplicado). O JS põe is-open no
+   * [data-js=menu] e aria-expanded no botão; nunca hidden.
+   */
+  @media (width < 64em) {
+    .c-nav__menu.is-open {
+      position: fixed;
+      inset: 0 auto 0 0;
+      z-index: 60;
+      flex-direction: column;
+      gap: var(--space-s);
+      inline-size: min(24rem, 88vw);
+      block-size: 100dvh;
+      padding: var(--space-s) var(--gutter) var(--space-xl);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      background: var(--color-bg);
+      box-shadow: 12px 0 40px -20px color-mix(in oklab, var(--color-ink) 60%, transparent);
+      transition: translate var(--dur-3) var(--ease-out);
+    }
+
+    @starting-style {
+      .c-nav__menu.is-open {
+        translate: -100% 0;
+      }
+    }
+
+    .c-nav__menu.is-open .c-nav__drawer-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-block-end: var(--space-xs);
+      border-block-end: 2px solid var(--color-horizon);
+    }
+
+    .c-nav__drawer-title {
+      font-size: var(--step--1);
+      font-weight: 700;
+      color: var(--color-muted);
+    }
+
+    .c-nav__menu.is-open .c-nav__list {
+      flex: none;
+      flex-direction: column;
+      gap: 0;
+      block-size: auto;
+      overflow: visible;
+      mask-image: none;
+    }
+
+    .c-nav__menu.is-open .c-nav__item {
+      display: block;
+    }
+
+    .c-nav__menu.is-open .c-nav__link {
+      gap: var(--space-xs);
+      padding: var(--space-2xs) 0;
+      font: var(--font-title);
+      font-size: var(--step-2);
+      line-height: 1.2;
+      color: var(--color-ink);
+      white-space: normal;
+      border-block-end: 1px solid var(--color-rule);
+    }
+
+    /* No painel o meio-sol vai antes do nome, não embaixo. */
+    .c-nav__menu.is-open .c-nav__link::after {
+      display: none;
+    }
+
+    .c-nav__menu.is-open .c-nav__link::before {
+      content: "";
+      inline-size: 0.6em;
+      block-size: 0.3em;
+      flex: none;
+      background: var(--sec, var(--color-horizon));
+      border-radius: 999px 999px 0 0;
+    }
+
+    .c-nav__menu.is-open :is(.c-nav__link.is-active, .c-nav__link[aria-current="page"]) {
+      color: var(--sec, var(--color-accent));
+    }
+
+  }
+}

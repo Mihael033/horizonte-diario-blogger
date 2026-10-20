@@ -1,0 +1,20 @@
+            <!-- HTML2…HTML7: bloque de portada por sección. El TÍTULO del gadget es la etiqueta.
+                 El JS lo rellena con #tpl-card (sin repetir noticias ya visibles en la portada):
+                 la primera tarjeta grande y el resto en lista; en móvil, carrusel. -->
+            <b:includable id='main' var='this'>
+              <b:if cond='data:view.isHomepage'>
+                <section class='c-section-block' data-count='4' data-js='home-section' expr:aria-label='data:title' expr:data-label='data:title' expr:data-section='data:title'>
+                  <header class='c-section-head'>
+                    <h2 class='c-section-head__title'><a data-js='label-link' expr:href='data:blog.homepageUrl + "search/label/" + data:title'><data:title/></a></h2>
+                    <span aria-hidden='true' class='c-section-head__rule'/>
+                    <a class='c-section-head__more' data-js='label-link' expr:href='data:blog.homepageUrl + "search/label/" + data:title'>Ver todo<span class='u-sr'> de <data:title/></span></a>
+                  </header>
+                  <div class='c-section-block__grid' data-card='list' data-card-first='standard' data-js='card-list'>
+                    <div aria-hidden='true' class='c-card c-card--skeleton'/>
+                    <div aria-hidden='true' class='c-card c-card--skeleton'/>
+                    <div aria-hidden='true' class='c-card c-card--skeleton'/>
+                    <div aria-hidden='true' class='c-card c-card--skeleton'/>
+                  </div>
+                </section>
+              </b:if>
+            </b:includable>

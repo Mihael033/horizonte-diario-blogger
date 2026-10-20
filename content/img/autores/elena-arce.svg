@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" role="img" aria-labelledby="title desc">
+  <title id="title">Elena Arce, columnista ficticia</title>
+  <desc id="desc">Monograma editorial EA. No representa a una persona real.</desc>
+  <rect width="160" height="160" rx="80" fill="#ece6dc"/>
+  <circle cx="80" cy="80" r="65" fill="none" stroke="#9c302b" stroke-width="2"/>
+  <path d="M36 56h30v6H43v15h20v6H43v15h23v6H36zm55 0h8l22 48h-8l-6-14H83l-6 14h-8zm-5 28h18l-9-21z" fill="#202624"/>
+</svg>

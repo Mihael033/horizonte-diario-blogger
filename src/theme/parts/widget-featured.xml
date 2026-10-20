@@ -1,0 +1,48 @@
+            <!-- FeaturedPost1 "A fondo": la elige el editor en Diseño. Solo se pinta en la portada.
+                 Sin view-transition-name: puede repetir una entrada de Blog1 y el nombre debe ser único. -->
+            <b:includable id='main' var='this'>
+              <b:if cond='data:view.isHomepage'>
+                <section aria-labelledby='feature-title' class='c-feature'>
+                  <header class='c-section-head'>
+                    <h2 class='c-section-head__title' id='feature-title'><data:title/></h2>
+                    <span aria-hidden='true' class='c-section-head__rule'/>
+                  </header>
+                  <b:loop values='data:posts' var='post'>
+                    <b:with value='{{SECTION_OF:post}}' var='section'>
+                      <article class='c-card c-feature__card' expr:data-post-id='data:post.id' expr:data-section='data:section.name'>
+                        <div class='c-card__media'>
+                          <b:if cond='data:post.featuredImage'>
+                            <b:if cond='data:post.featuredImage.isResizable'>
+                              <img alt='' class='c-card__img' decoding='async' height='900' loading='lazy' sizes='auto, (min-width: 64em) 30rem, (min-width: 48em) 45vw, 100vw' width='1200' expr:src='resizeImage(data:post.featuredImage, 1200, "4:3")' expr:srcset='sourceSet(data:post.featuredImage, [400, 800, 1200], "4:3")'/>
+                            <b:else/>
+                              <img alt='' class='c-card__img' decoding='async' height='900' loading='lazy' width='1200' expr:src='data:post.featuredImage'/>
+                            </b:if>
+                          <b:else/>
+                            <span aria-hidden='true' class='c-card__placeholder'/>
+                          </b:if>
+                        </div>
+                        <div class='c-card__body'>
+                          <b:include data='section' name='cardSection'/>
+                          <h3 class='c-card__title'><a class='c-card__link' expr:href='data:post.url'><data:post.title/></a></h3>
+                          <p class='c-card__excerpt'><b:eval expr='snippet(data:post.body, {length: 280, links: false, linebreaks: false})'/></p>
+                          <b:include data='post' name='cardMeta'/>
+                        </div>
+                      </article>
+                    </b:with>
+                  </b:loop>
+                </section>
+              </b:if>
+            </b:includable>
+
+            <b:includable id='cardSection' var='label'>
+              <b:if cond='data:label'>
+                <a class='c-card__section' expr:href='data:label.url'><data:label.name/></a>
+              </b:if>
+            </b:includable>
+
+            <b:includable id='cardMeta' var='post'>
+              <p class='c-card__meta'>
+                <time class='c-card__date' data-js='date' expr:datetime='data:post.date.iso8601'><data:post.date/></time>
+                <span class='c-card__readtime' data-js='readtime' hidden='hidden'/>
+              </p>
+            </b:includable>

@@ -1,0 +1,8 @@
+            <!-- HTML8: boletín. El formulario está en el contenido del gadget (Diseño → editar);
+                 ahí se pega el código de Mailchimp, Brevo, Substack… El sol nace detrás de la línea. -->
+            <b:includable id='main' var='this'>
+              <section aria-labelledby='newsletter-title' class='c-widget c-newsletter' id='newsletter'>
+                <h2 class='c-newsletter__title' id='newsletter-title'><data:title/></h2>
+                <div class='c-newsletter__body'><data:content/></div>
+              </section>
+            </b:includable>

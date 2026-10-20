@@ -1,0 +1,156 @@
+@layer layout {
+  .l-container {
+    inline-size: 100%;
+    max-inline-size: var(--container);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .l-main {
+    display: block;
+    padding-block-end: var(--space-2xl);
+  }
+
+  /*
+   * Página: main > .l-container.l-page. O Blogger envolve tudo em
+   * div.section > div.widget; esses invólucros viram display: contents para
+   * que os blocos de dentro (destaque, últimas, "A fondo", seções, artigo)
+   * entrem direto nesta grade. A barra lateral é um item da mesma grade.
+   */
+  .l-page {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    padding-block-start: var(--space-m);
+  }
+
+  .l-main__blog,
+  .l-home-extra,
+  :is(.l-main__blog, .l-home-extra) :is(.section, .widget) {
+    display: contents;
+  }
+
+  .l-page > .l-sidebar {
+    margin-block-start: var(--space-l);
+  }
+
+  /* Trilho minmax(0, 1fr): nenhum gadget (nem um colado pela redação) alarga a coluna. */
+  .l-sidebar,
+  .l-sidebar__section > .widget {
+    min-inline-size: 0;
+  }
+
+  .l-sidebar__section {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-l);
+    min-inline-size: 0;
+  }
+
+  /* Portada e listados: duas colunas no desktop. */
+  @media (width >= 64em) {
+    :is(.p-home, .p-list) .l-page {
+      grid-template-columns: minmax(0, 1fr) 20rem;
+      column-gap: var(--space-2xl);
+    }
+
+    :is(.p-home, .p-list) .l-page > .l-sidebar {
+      grid-column: 2;
+      grid-row: 2 / span 40;
+      margin-block-start: 0;
+      padding-inline-start: var(--space-l);
+      border-inline-start: 1px solid var(--color-rule);
+    }
+
+    :is(.p-home .c-hero, .p-list .p-archive__head) {
+      grid-column: 1 / -1;
+    }
+
+    .l-page :is(.c-latest, .c-pager, .c-feature, .c-section-block, .l-list, .p-archive__empty) {
+      grid-column: 1;
+    }
+  }
+
+  /* Artigo, página estática e 404: a barra lateral vira uma faixa no fim. */
+  :is(.p-post, .p-page, .p-error) .l-sidebar {
+    margin-block-start: var(--space-2xl);
+    padding-block-start: var(--space-l);
+    border-block-start: 2px solid var(--color-horizon);
+  }
+
+  @media (width >= 48em) {
+    :is(.p-post, .p-page, .p-error) .l-sidebar__section {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-l) var(--space-xl);
+    }
+  }
+
+  @media (width >= 64em) {
+    :is(.p-post, .p-page, .p-error) .l-sidebar__section {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  /* Grade de cartões: 1 → 2 → 3 colunas. */
+  .l-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-l) var(--space-m);
+  }
+
+  @media (width >= 40em) {
+    .l-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (width >= 64em) {
+    .l-grid--3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  /* Lista vertical de cartões em linha (etiqueta, busca). */
+  .l-list {
+    display: grid;
+    gap: var(--space-m);
+  }
+
+  /*
+   * Carrossel no celular, grade de 3 no desktop (relacionadas). Encaixe
+   * horizontal (scroll-snap) com o cartão seguinte aparecendo na borda.
+   */
+  .l-rail {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: min(78%, 20rem);
+    gap: var(--space-s);
+    margin-inline: calc(-1 * var(--gutter));
+    padding-inline: var(--gutter);
+    padding-block-end: var(--space-2xs);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: thin;
+  }
+
+  .l-rail > * {
+    scroll-snap-align: start;
+  }
+
+  @media (width >= 48em) {
+    .l-rail {
+      grid-auto-flow: row;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-l) var(--space-m);
+      margin-inline: 0;
+      padding: 0;
+      overflow: visible;
+    }
+
+    .l-rail > :nth-child(n + 4) {
+      display: none;
+    }
+  }
+}

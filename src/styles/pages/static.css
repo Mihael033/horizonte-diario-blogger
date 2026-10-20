@@ -1,0 +1,35 @@
+@layer pages {
+  .p-static__page {
+    inline-size: 100%;
+    max-inline-size: 44rem;
+    min-inline-size: 0;
+    margin-inline: auto;
+  }
+
+  .p-static__head {
+    padding-block-end: var(--space-l);
+    border-block-end: 2px solid var(--color-horizon);
+  }
+
+  .p-static__title {
+    margin-block-start: var(--space-m);
+    font: var(--font-title);
+    font-size: var(--step-4);
+    font-weight: 600;
+    line-height: 1.08;
+    color: var(--color-ink);
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+  }
+
+  .p-static__body {
+    min-inline-size: 0;
+    margin-block-start: var(--space-xl);
+  }
+
+  @media (width >= 48em) {
+    .p-static__title {
+      font-size: var(--step-5);
+    }
+  }
+}

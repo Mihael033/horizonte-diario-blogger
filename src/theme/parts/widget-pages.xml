@@ -1,0 +1,11 @@
+          <!-- PageList1: páginas estáticas (Quiénes somos, Contacto, Aviso legal, Privacidad…). -->
+          <b:includable id='main' var='this'>
+            <nav class='c-footer__nav' expr:aria-label='data:title'>
+              <h2 class='c-footer__title'><data:title/></h2>
+              <ul class='c-footer__list'>
+                <b:loop values='data:links' var='link'>
+                  <li><a expr:href='data:link.href'><b:attr cond='data:link.isCurrentPage' name='aria-current' value='page'/><data:link.title/></a></li>
+                </b:loop>
+              </ul>
+            </nav>
+          </b:includable>

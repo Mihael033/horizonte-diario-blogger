@@ -1,0 +1,19 @@
+  <!-- Plantilla de tarjeta para el JS (cargar más, bloques de portada, relacionadas, búsqueda).
+       Mismo marcado que el includable "card". Huecos: data-slot = url | img | section | title |
+       excerpt | date | readtime. El JS pone data-post-id, data-section y c-card con su variante en la raíz. -->
+  <template id='tpl-card'>
+    <article class='c-card'>
+      <div class='c-card__media'>
+        <img alt='' class='c-card__img' data-slot='img' decoding='async' height='450' loading='lazy' sizes='auto, (min-width: 64em) 24rem, (min-width: 40em) 45vw, 100vw' src='data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' width='800'/>
+      </div>
+      <div class='c-card__body'>
+        <a class='c-card__section' data-slot='section' href='#'>Sección</a>
+        <h3 class='c-card__title'><a class='c-card__link' data-slot='url' href='#'><span data-slot='title'>Titular</span></a></h3>
+        <p class='c-card__excerpt' data-slot='excerpt'/>
+        <p class='c-card__meta'>
+          <time class='c-card__date' data-slot='date'/>
+          <span class='c-card__readtime' data-slot='readtime'/>
+        </p>
+      </div>
+    </article>
+  </template>

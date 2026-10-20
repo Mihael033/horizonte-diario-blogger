@@ -1,0 +1,119 @@
+@layer base {
+  html {
+    scroll-padding-block-start: calc(var(--header-h) + var(--space-s));
+    hanging-punctuation: first last;
+  }
+
+  body {
+    font: var(--font-text);
+    font-size: var(--step-0);
+    line-height: 1.55;
+    color: var(--color-ink);
+    background: var(--color-bg);
+    font-kerning: normal;
+    font-optical-sizing: auto;
+    text-rendering: optimizelegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font: var(--font-title);
+    font-size: var(--step-2);
+    line-height: 1.12;
+    text-wrap: balance;
+    letter-spacing: -0.01em;
+  }
+
+  p,
+  li,
+  figcaption {
+    text-wrap: pretty;
+  }
+
+  /* Algarismos tabulares só onde números se alinham em coluna (não em datas:
+     na Schibsted Grotesk o tnum também alarga a vírgula). */
+  .u-num {
+    font-variant-numeric: tabular-nums;
+  }
+
+  a {
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.18em;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: var(--color-sun);
+    color: var(--color-sun-ink);
+  }
+
+  input::placeholder {
+    color: var(--color-muted);
+    opacity: 1;
+  }
+
+  hr {
+    border: 0;
+    border-block-start: 1px solid var(--color-rule);
+  }
+
+  /*
+   * Cor por seção: qualquer elemento com data-section="<etiqueta>" define --sec
+   * para os filhos. Etiqueta desconhecida cai no azul da marca.
+   */
+  [data-section] {
+    --sec: var(--color-accent);
+  }
+
+  [data-section="Actualidad" i] { --sec: var(--sec-actualidad); }
+
+  [data-section="Economía" i],
+  [data-section="Economia" i] { --sec: var(--sec-economia); }
+  [data-section="Cultura" i] { --sec: var(--sec-cultura); }
+
+  [data-section="Tecnología" i],
+  [data-section="Tecnologia" i] { --sec: var(--sec-tecnologia); }
+  [data-section="Deportes" i] { --sec: var(--sec-deportes); }
+
+  [data-section="Opinión" i],
+  [data-section="Opinion" i] { --sec: var(--sec-opinion); }
+
+  /* Ícones SVG herdam a cor do texto. */
+  .c-icon {
+    inline-size: 1.25em;
+    block-size: 1.25em;
+    flex: none;
+    fill: none;
+    stroke: currentcolor;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* Pular para o conteúdo: aparece só no foco por teclado. */
+  .c-skip {
+    position: fixed;
+    inset-block-start: var(--space-xs);
+    inset-inline-start: var(--space-xs);
+    z-index: 100;
+    padding: var(--space-2xs) var(--space-s);
+    background: var(--color-ink);
+    color: var(--color-bg);
+    font-weight: 600;
+    border-radius: var(--radius-s);
+    transform: translateY(-200%);
+  }
+
+  .c-skip:focus-visible {
+    transform: none;
+  }
+}

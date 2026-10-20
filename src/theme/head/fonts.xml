@@ -1,0 +1,6 @@
+  <!-- ===== Fuentes (Google Fonts, sin bloquear el renderizado). Solo los pesos que usa el CSS:
+       Newsreader 500-700 (titulares) e itálica 400 (citas); Schibsted Grotesk 400-700 (texto). ===== -->
+  <link href='https://fonts.googleapis.com' rel='preconnect'/>
+  <link crossorigin='anonymous' href='https://fonts.gstatic.com' rel='preconnect'/>
+  <link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500..700;1,6..72,400&amp;family=Schibsted+Grotesk:wght@400..700&amp;display=swap' media='print' onload='this.media="all"' rel='stylesheet'/>
+  <noscript><link href='https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500..700;1,6..72,400&amp;family=Schibsted+Grotesk:wght@400..700&amp;display=swap' rel='stylesheet'/></noscript>

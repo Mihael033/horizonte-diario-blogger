@@ -1,0 +1,4 @@
+    <div class='c-footer__bottom'>
+      <p>© <span data-js='year'>2026</span> <data:blog.title/>. Todos los derechos reservados.</p>
+      <a class='c-footer__top' href='#top'>Volver arriba</a>
+    </div>

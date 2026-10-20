@@ -1,0 +1,86 @@
+# Integración continua y demo en GitHub Pages.
+# 1) npm ci + npm run check (build y validación del tema, preview, ESLint, Stylelint, html-validate, tests).
+# 2) Prueba E2E en Chrome sin interfaz (informativa: no bloquea la publicación).
+# 3) Genera el preview con la URL de GitHub Pages y lo publica.
+#
+# Base de la demo: por defecto https://<usuario>.github.io/<repositorio>/. Para otra (dominio propio,
+# repositorio usuario.github.io…), crea la variable de repositorio PREVIEW_BASE en
+# Settings → Secrets and variables → Actions → Variables, p. ej. https://demo.example.com/
+# Activa Pages una vez en Settings → Pages → Source: GitHub Actions.
+
+name: CI y GitHub Pages
+
+on:
+  push:
+    branches: [main, publico]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Recomendación de GitHub Pages: no cancelar una publicación en curso.
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  check:
+    name: Build, tests y preview
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Build, lint y tests (npm run check)
+        run: npm run check
+
+      - name: Prueba E2E en Chrome (npm run smoke)
+        continue-on-error: true
+        run: npm run smoke
+
+      - name: Calcular la base de la demo
+        id: base
+        env:
+          PREVIEW_BASE: ${{ vars.PREVIEW_BASE }}
+        run: |
+          if [ -n "$PREVIEW_BASE" ]; then
+            base="$PREVIEW_BASE"
+          else
+            owner="$(printf '%s' "$GITHUB_REPOSITORY_OWNER" | tr '[:upper:]' '[:lower:]')"
+            base="https://${owner}.github.io/${GITHUB_REPOSITORY#*/}/"
+          fi
+          base="${base%/}/"
+          echo "Base de la demo: $base"
+          echo "url=$base" >> "$GITHUB_OUTPUT"
+
+      - name: Generar el preview para GitHub Pages
+        run: node tools/render-preview.mjs --no-build --base "${{ steps.base.outputs.url }}" --out _site
+
+      - name: Subir el sitio
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    name: Publicar en GitHub Pages
+    if: github.event_name != 'pull_request'
+    needs: check
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,54 @@
+@layer components {
+  /*
+   * "A fondo": a reportagem escolhida pela redação (widget FeaturedPost).
+   * Faixa na cor bruma, texto à esquerda e foto à direita no desktop.
+   */
+  .c-feature {
+    padding-block: var(--space-l);
+    background: var(--color-surface);
+  }
+
+  .c-feature__card {
+    display: grid;
+    gap: var(--space-m);
+    align-items: center;
+  }
+
+  .c-feature__card .c-card__media {
+    order: -1;
+  }
+
+  .c-feature__card .c-card__title {
+    font-size: var(--step-3);
+    line-height: 1.08;
+  }
+
+  .c-feature__card .c-card__excerpt {
+    font-size: var(--step-0);
+    -webkit-line-clamp: 5;
+    line-clamp: 5;
+  }
+
+  .c-feature__cta {
+    position: relative;
+    z-index: 2;
+    align-self: flex-start;
+    margin-block-start: var(--space-xs);
+  }
+
+  @media (width >= 48em) {
+    .c-feature {
+      padding: var(--space-l);
+    }
+
+    .c-feature__card {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      gap: var(--space-xl);
+    }
+
+    .c-feature__card .c-card__media {
+      order: 0;
+      aspect-ratio: 4 / 3;
+    }
+  }
+}

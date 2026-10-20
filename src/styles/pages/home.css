@@ -1,0 +1,103 @@
+@layer pages {
+  /* Ritmo vertical dos blocos da portada e dos listados (itens da grade .l-page). */
+  .l-page :is(.c-hero, .c-latest, .c-feature, .c-section-block, .l-list, .p-archive__empty) {
+    margin-block-end: var(--space-xl);
+  }
+
+  .l-page .c-pager {
+    margin-block: calc(-1 * var(--space-m)) var(--space-xl);
+  }
+
+  /*
+   * Celular: nas últimas notícias só o primeiro cartão leva foto grande; os
+   * outros viram lista com miniatura à direita (a portada fica bem mais curta).
+   */
+  @media (width < 40em) {
+    .c-latest .l-grid {
+      gap: 0;
+    }
+
+    .c-latest .l-grid > .c-card {
+      padding-block: var(--space-s);
+      border-block-end: 1px solid var(--color-rule);
+    }
+
+    .c-latest .l-grid > .c-card:first-child {
+      padding-block-start: 0;
+    }
+
+    .c-latest .l-grid > .c-card:not(:first-child) {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 6rem;
+      gap: var(--space-s);
+      align-items: start;
+    }
+
+    .c-latest .l-grid > .c-card:not(:first-child) .c-card__media {
+      grid-column: 2;
+      grid-row: 1;
+      aspect-ratio: 1;
+    }
+
+    .c-latest .l-grid > .c-card:not(:first-child) .c-card__body {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .c-latest .l-grid > .c-card:not(:first-child) .c-card__excerpt {
+      display: none;
+    }
+  }
+
+  /* "A fondo" sangra até a borda no celular. */
+  @media (width < 48em) {
+    .l-page .c-feature {
+      margin-inline: calc(-1 * var(--gutter));
+      padding-inline: var(--gutter);
+    }
+  }
+
+  /* Com JS, "Más noticias" vira botão centralizado (carrega sem recarregar). */
+  .has-js .p-home .c-pager {
+    justify-content: center;
+    border-block-start: 0;
+  }
+
+  .has-js .p-home .c-pager__link--older {
+    flex-direction: row;
+    align-items: center;
+    margin-inline-start: 0;
+    padding: 0.5em 1.4em;
+    font-weight: 600;
+    color: var(--color-ink);
+    border: 2px solid var(--color-ink);
+    border-radius: var(--radius-pill);
+    transition:
+      color var(--dur-1) var(--ease-out),
+      background-color var(--dur-1) var(--ease-out);
+  }
+
+  .has-js .p-home .c-pager__link--older span {
+    display: none;
+  }
+
+  .has-js .p-home .c-pager__link--older strong {
+    font: inherit;
+    color: inherit;
+  }
+
+  .has-js .p-home .c-pager__link--older:hover {
+    color: var(--color-bg);
+    background: var(--color-ink);
+  }
+
+  .has-js .p-home .c-pager__link--older:hover strong {
+    text-decoration: none;
+  }
+
+  .has-js .p-home .c-pager__link--older.is-loading,
+  .has-js .p-home .c-pager__link--older[aria-busy="true"] {
+    cursor: progress;
+    opacity: 0.7;
+  }
+}

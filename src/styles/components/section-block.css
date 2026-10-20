@@ -1,0 +1,85 @@
+@layer components {
+  /*
+   * Bloco por seção na portada (widget HTML preenchido pelo JS via feed).
+   * Desktop: primeiro cartão grande à esquerda + lista à direita.
+   * Celular: carrossel horizontal com encaixe (scroll-snap).
+   */
+  .c-section-block__grid {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: min(78%, 20rem);
+    gap: var(--space-s);
+    margin-inline: calc(-1 * var(--gutter));
+    padding-inline: var(--gutter);
+    padding-block-end: var(--space-2xs);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: thin;
+  }
+
+  .c-section-block__grid > .c-card {
+    scroll-snap-align: start;
+  }
+
+  /* No carrossel todo cartão fica com a foto em cima. */
+  .c-section-block__grid > .c-card--list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .c-section-block__grid > .c-card--list .c-card__media {
+    aspect-ratio: 16 / 9;
+  }
+
+  /* Reserva o espaço enquanto o feed carrega (evita CLS) e mostra um brilho. */
+  .c-section-block__grid:empty {
+    display: block;
+    min-block-size: 16rem;
+    margin-inline: 0;
+    background:
+      linear-gradient(100deg, transparent 30%, color-mix(in oklab, var(--color-bg) 60%, transparent) 50%, transparent 70%) 0 0 / 200% 100%,
+      var(--color-surface);
+    border-radius: var(--radius-s);
+    animation: skeleton-shine 1.4s linear infinite;
+  }
+
+  .c-section-block__error {
+    padding: var(--space-s);
+    font-size: var(--step--1);
+    color: var(--color-muted);
+    background: var(--color-surface);
+  }
+
+  @media (width >= 48em) {
+    .c-section-block__grid {
+      grid-auto-flow: row;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 4fr);
+      grid-auto-columns: auto;
+      gap: var(--space-s) var(--space-l);
+      margin-inline: 0;
+      padding: 0;
+      overflow: visible;
+    }
+
+    .c-section-block__grid > .c-card:first-child {
+      grid-row: span 3;
+    }
+
+    .c-section-block__grid > .c-card--list {
+      display: grid;
+      padding-block-end: var(--space-s);
+      border-block-end: 1px solid var(--color-rule);
+    }
+
+    .c-section-block__grid > .c-card--list:last-child {
+      border-block-end: 0;
+    }
+
+    .c-section-block__grid > .c-card--list .c-card__media {
+      aspect-ratio: 1;
+    }
+  }
+}

@@ -1,0 +1,17 @@
+          <!-- LinkList3: redes. El icono sale del nombre del enlace (#i-X, #i-Facebook, #i-Instagram,
+               #i-YouTube, #i-WhatsApp, #i-RSS). El nombre queda para lectores de pantalla. -->
+          <b:includable id='main' var='this'>
+            <section class='c-footer__social-block'>
+              <h2 class='c-footer__title'><data:title/></h2>
+              <ul class='c-footer__social'>
+                <b:loop values='data:links' var='link'>
+                  <li>
+                    <a expr:data-network='data:link.name' expr:href='data:link.target' rel='noopener me' target='_blank'>
+                      <svg aria-hidden='true' class='c-icon' focusable='false'><use expr:href='"#i-" + data:link.name'/></svg>
+                      <span class='u-sr'><data:link.name/> (se abre en otra ventana)</span>
+                    </a>
+                  </li>
+                </b:loop>
+              </ul>
+            </section>
+          </b:includable>

@@ -1,0 +1,205 @@
+@layer components {
+  /*
+   * Cabeçalho. A marca fica apoiada na linha do horizonte: as réguas
+   * (.c-brand__rule) são itens flex vazios alinhados pela linha de base do
+   * nome, então a linha passa exatamente no pé das letras, de ponta a ponta.
+   */
+  .c-masthead {
+    position: relative;
+    z-index: 30;
+    background: var(--color-bg);
+  }
+
+  /* Linha de cima (tablet e desktop): data à esquerda, boletim à direita. */
+  .c-masthead__top {
+    display: none;
+  }
+
+  .c-masthead__bar {
+    padding-block: var(--space-s);
+  }
+
+  @media (width >= 48em) {
+    .c-masthead__top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-m);
+      padding-block-start: var(--space-xs);
+      font-size: var(--step--1);
+      color: var(--color-muted);
+    }
+
+    .c-masthead__date::first-letter {
+      text-transform: uppercase;
+    }
+  }
+
+  @media (width >= 64em) {
+    .c-masthead__bar {
+      padding-block: var(--space-2xs) var(--space-m);
+    }
+  }
+
+  /* ---------- Marca ---------- */
+  .c-brand {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-xs);
+    font-size: var(--step-3);
+    line-height: 1;
+  }
+
+  .c-brand__title {
+    min-inline-size: 0;
+    font: inherit;
+  }
+
+  .c-brand__rule {
+    flex: 1;
+    min-inline-size: var(--space-s);
+    block-size: 2px;
+    background: var(--color-horizon);
+    transform-origin: left center;
+  }
+
+  .c-brand__rule--start {
+    display: none;
+    transform-origin: right center;
+  }
+
+  .c-brand__tagline {
+    display: none;
+  }
+
+  @media (width >= 64em) {
+    .c-brand {
+      gap: var(--space-s);
+      font-size: var(--step-5);
+    }
+
+    .c-brand__rule--start {
+      display: block;
+    }
+
+    .c-brand__tagline {
+      display: block;
+      margin-block-start: var(--space-2xs);
+      font-size: var(--step--1);
+      text-align: center;
+      color: var(--color-muted);
+    }
+  }
+
+  .c-logo {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.28em;
+    text-decoration: none;
+    color: var(--color-ink);
+  }
+
+  .c-logo__name {
+    font: var(--font-title);
+    font-size: 1em;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.025em;
+  }
+
+  /* Logo em imagem, se a redação subir um no Diseño. */
+  .c-logo__img {
+    align-self: center;
+    inline-size: auto;
+    max-block-size: 1.4em;
+  }
+
+  /* Sol e lua: o SVG termina na linha de base, então o sol nasce do horizonte. */
+  .c-logo__mark {
+    inline-size: 1.15em;
+    block-size: 0.575em;
+    overflow: hidden;
+    flex: none;
+  }
+
+  .c-logo__sun {
+    fill: var(--color-sun);
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform var(--dur-3) var(--ease-in-out);
+  }
+
+  .c-logo__moon,
+  .c-logo__star {
+    fill: var(--color-ink);
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: translateY(40%);
+    transition:
+      opacity var(--dur-2) var(--ease-out),
+      transform var(--dur-3) var(--ease-out);
+  }
+
+  .c-logo__bite {
+    fill: var(--color-bg);
+    opacity: 0;
+    transition: opacity var(--dur-2) var(--ease-out);
+  }
+
+  /* ---------- Modo escuro: o sol se põe, a lua aparece ---------- */
+  :root[data-theme="dark"] .c-logo__sun {
+    transform: translateY(105%);
+  }
+
+  :root[data-theme="dark"] :is(.c-logo__moon, .c-logo__star, .c-logo__bite) {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .c-logo__sun {
+      transform: translateY(105%);
+    }
+
+    :root:not([data-theme="light"]) :is(.c-logo__moon, .c-logo__star, .c-logo__bite) {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* ---------- Botão de tema: o mesmo horizonte em miniatura ---------- */
+  .c-theme .c-theme__sun {
+    fill: var(--color-sun);
+    stroke: none;
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform var(--dur-3) var(--ease-in-out);
+  }
+
+  .c-theme .c-theme__moon {
+    fill: currentcolor;
+    stroke: none;
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: translateY(60%) rotate(-30deg);
+    transition:
+      opacity var(--dur-2) var(--ease-out),
+      transform var(--dur-3) var(--ease-out);
+  }
+
+  .c-theme[aria-pressed="true"] .c-theme__sun {
+    transform: translateY(120%);
+  }
+
+  .c-theme[aria-pressed="true"] .c-theme__moon {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Sem JS o botão não faz nada: some (o tema segue o sistema). */
+  :root:not(.has-js) .c-theme {
+    display: none;
+  }
+}

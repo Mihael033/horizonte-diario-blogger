@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<!--#src
+  Horizonte Diario · tema de periódico para Blogger.
+  ARCHIVO FUENTE: no se importa en Blogger. El build (npm run build) resuelve los
+  marcadores y genera theme/theme.xml, que es el único archivo que se importa.
+    @include parts/x.xml  → inserta un parcial (src/theme/parts, src/theme/widgets)
+    @inject:js-head       → script inline previo al CSS (tema claro/oscuro sin parpadeo)
+    @inject:skin          → b:skin: <Variable> del Diseñador + :root con los tokens
+    @inject:css           → CSS principal en <style> (fuera del b:skin)
+    @inject:js            → JS principal (src/js, empaquetado y minificado)
+  Estructura: este archivo y widgets/. Presentación: parts/.
+-->
+<html b:css='false' b:defaultwidgetversion='2' b:layoutsVersion='3' b:responsive='true' b:templateVersion='1.0.0' b:version='2' class='no-js' expr:dir='data:blog.languageDirection' lang='es-ES' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+<head>
+  <meta charset='UTF-8'/>
+  <meta content='width=device-width, initial-scale=1, viewport-fit=cover' name='viewport'/>
+  <!-- @inject:js-head -->
+  <!-- @include head/seo.xml -->
+  <!-- @include head/fonts.xml -->
+  <b:skin version='1.0.0'><!-- @inject:skin --></b:skin>
+  <!-- @inject:css -->
+  <!-- @include head/layout-editor.xml -->
+</head>
+<body class='l-body' expr:data-home='data:blog.homepageUrl' expr:data-search='data:blog.searchUrl'>
+  <b:class cond='data:view.isHomepage' name='p-home'/>
+  <b:class cond='data:view.isPost' name='p-post'/>
+  <b:class cond='data:view.isPage' name='p-page'/>
+  <b:class cond='data:view.isMultipleItems' name='p-list'/>
+  <b:class cond='data:view.isLabelSearch' name='p-label'/>
+  <b:class cond='data:view.search.query' name='p-search'/>
+  <b:class cond='data:view.isArchive' name='p-archive'/>
+  <b:class cond='data:view.isError' name='p-error'/>
+
+  <!-- @include parts/icons.xml -->
+
+  <a class='c-skip' href='#main'>Saltar al contenido</a>
+
+  <!-- ===== CABECERA ===== -->
+  <header class='c-masthead' id='top'>
+    <div class='l-container'>
+      <!-- @include parts/header-top.xml -->
+      <b:section class='c-masthead__bar' id='header' maxwidgets='1' name='Cabecera' showaddelement='no'>
+        <b:widget id='Header1' locked='true' title='Horizonte Diario (cabecera)' type='Header' version='2' visible='true'>
+          <!-- @include parts/widget-header.xml -->
+        </b:widget>
+      </b:section>
+    </div>
+  </header>
+
+  <!-- ===== BARRA FIJA: menú, secciones, búsqueda y tema. En móvil la lista es una fila con
+       scroll horizontal y el botón de menú la abre como panel (una sola LinkList). ===== -->
+  <div class='c-nav-sentinel' data-js='nav-sentinel' aria-hidden='true'/>
+  <nav aria-label='Menú principal' class='c-nav' data-js='nav' id='nav'>
+    <div class='l-container c-nav__inner'>
+      <!-- @include parts/header-actions-start.xml -->
+      <div class='c-nav__menu' data-js='menu' id='menu'>
+      <!-- @include parts/nav-drawer-head.xml -->
+      <b:section class='c-nav__section' id='nav-links' maxwidgets='1' name='Menú de secciones' showaddelement='no'>
+        <b:widget id='LinkList1' locked='true' title='Secciones' type='LinkList' version='2' visible='true'>
+          <b:widget-settings>
+            <b:widget-setting name='sorting'>NONE</b:widget-setting>
+            <b:widget-setting name='text-0'>Actualidad</b:widget-setting>
+            <b:widget-setting name='link-0'>/search/label/Actualidad</b:widget-setting>
+            <b:widget-setting name='text-1'>Economía</b:widget-setting>
+            <b:widget-setting name='link-1'>/search/label/Econom%C3%ADa</b:widget-setting>
+            <b:widget-setting name='text-2'>Cultura</b:widget-setting>
+            <b:widget-setting name='link-2'>/search/label/Cultura</b:widget-setting>
+            <b:widget-setting name='text-3'>Tecnología</b:widget-setting>
+            <b:widget-setting name='link-3'>/search/label/Tecnolog%C3%ADa</b:widget-setting>
+            <b:widget-setting name='text-4'>Deportes</b:widget-setting>
+            <b:widget-setting name='link-4'>/search/label/Deportes</b:widget-setting>
+            <b:widget-setting name='text-5'>Opinión</b:widget-setting>
+            <b:widget-setting name='link-5'>/search/label/Opini%C3%B3n</b:widget-setting>
+          </b:widget-settings>
+          <!-- @include parts/widget-nav.xml -->
+        </b:widget>
+      </b:section>
+      </div>
+      <!-- @include parts/header-actions-end.xml -->
+    </div>
+    <b:if cond='data:view.isPost'>
+      <div aria-hidden='true' class='c-nav__progress' data-js='progress'/>
+    </b:if>
+  </nav>
+  <div class='c-scrim' data-js='scrim' hidden='hidden'/>
+
+  <!-- ===== ÚLTIMA HORA ===== -->
+  <b:section class='c-ticker-section' id='ticker' maxwidgets='1' name='Última hora' showaddelement='no'>
+    <b:widget id='HTML1' locked='true' title='Última hora' type='HTML' version='2' visible='true'>
+      <b:widget-settings>
+        <b:widget-setting name='content'/>
+      </b:widget-settings>
+      <!-- @include parts/widget-ticker.xml -->
+    </b:widget>
+  </b:section>
+
+  <!-- ===== CONTENIDO: main es la rejilla de dos columnas; la barra lateral es un item de ella
+       para que el destacado de portada (dentro de Blog1) pueda ocupar todo el ancho. ===== -->
+  <main class='l-main' id='main' tabindex='-1'>
+    <div class='l-container l-page'>
+      <b:section class='l-main__blog' id='main-blog' maxwidgets='1' name='Entradas' showaddelement='no'>
+        <b:widget id='Blog1' locked='true' title='Entradas del blog' type='Blog' version='2' visible='true'>
+          <!-- @include widgets/blog.xml -->
+        </b:widget>
+      </b:section>
+
+      <!-- Solo portada: los widgets no pintan nada fuera de la portada (ver includables). -->
+      <div class='l-home-extra'>
+        <b:section class='l-home-extra__featured' id='home-featured' maxwidgets='1' name='Portada: A fondo' showaddelement='no'>
+          <b:widget id='FeaturedPost1' locked='false' title='A fondo' type='FeaturedPost' version='2' visible='true'>
+            <b:widget-settings>
+              <b:widget-setting name='showSnippet'>true</b:widget-setting>
+              <b:widget-setting name='showPostTitle'>true</b:widget-setting>
+              <b:widget-setting name='showFirstImage'>true</b:widget-setting>
+              <b:widget-setting name='useMostRecentPost'>false</b:widget-setting>
+            </b:widget-settings>
+            <!-- @include parts/widget-featured.xml -->
+          </b:widget>
+        </b:section>
+
+        <!-- Bloques por sección: el título de cada widget es el nombre exacto de la etiqueta. -->
+        <b:section class='l-home-extra__sections' id='home-sections' name='Portada: bloques por sección' showaddelement='yes'>
+          <b:widget id='HTML2' locked='false' title='Actualidad' type='HTML' version='2' visible='true'>
+            <b:widget-settings><b:widget-setting name='content'/></b:widget-settings>
+            <!-- @include parts/widget-home-section.xml -->
+          </b:widget>
+          <b:widget id='HTML3' locked='false' title='Economía' type='HTML' version='2' visible='true'>
+            <b:widget-settings><b:widget-setting name='content'/></b:widget-settings>
+            <!-- @include parts/widget-home-section.xml -->
+          </b:widget>
+          <b:widget id='HTML4' locked='false' title='Cultura' type='HTML' version='2' visible='true'>
+            <b:widget-settings><b:widget-setting name='content'/></b:widget-settings>
+            <!-- @include parts/widget-home-section.xml -->
+          </b:widget>
+          <b:widget id='HTML5' locked='false' title='Tecnología' type='HTML' version='2' visible='true'>
+            <b:widget-settings><b:widget-setting name='content'/></b:widget-settings>
+            <!-- @include parts/widget-home-section.xml -->
+          </b:widget>
+          <b:widget id='HTML6' locked='false' title='Deportes' type='HTML' version='2' visible='true'>
+            <b:widget-settings><b:widget-setting name='content'/></b:widget-settings>
+            <!-- @include parts/widget-home-section.xml -->
+          </b:widget>
+          <b:widget id='HTML7' locked='false' title='Opinión' type='HTML' version='2' visible='true'>
+            <b:widget-settings><b:widget-setting name='content'/></b:widget-settings>
+            <!-- @include parts/widget-home-section.xml -->
+          </b:widget>
+        </b:section>
+      </div>
+
+      <!-- ===== BARRA LATERAL ===== -->
+      <aside aria-label='Barra lateral' class='l-sidebar'>
+      <b:section class='l-sidebar__section' id='sidebar' name='Barra lateral' showaddelement='yes'>
+        <b:widget id='PopularPosts1' locked='false' title='Lo más leído' type='PopularPosts' version='2' visible='true'>
+          <!-- @include parts/widget-popular.xml -->
+        </b:widget>
+        <!-- BOLETÍN (demostración): el formulario no envía nada. Para activarlo, en Diseño edita el
+             gadget «Recibe el boletín» y sustituye el formulario por el código de tu proveedor
+             (Mailchimp, Brevo, Substack, MailerLite…). El título y el estilo se mantienen. -->
+        <b:widget id='HTML8' locked='false' title='Recibe el boletín' type='HTML' version='2' visible='true'>
+          <b:widget-settings>
+            <b:widget-setting name='content'><![CDATA[<!-- DEMOSTRACIÓN: sustituye el <form> de abajo por el código de tu proveedor de boletines (Mailchimp, Brevo, Substack…). -->
+<p>Las noticias más importantes del día, cada mañana en tu correo. Gratis.</p>
+<form class="c-newsletter__form" data-js="newsletter" action="#" method="post">
+  <label class="u-sr" for="newsletter-email">Correo electrónico</label>
+  <input class="c-newsletter__input" id="newsletter-email" name="email" type="email" autocomplete="email" placeholder="tu@correo.es" required>
+  <button class="c-newsletter__submit" type="submit">Suscríbete</button>
+</form>
+<p class="c-newsletter__legal">Puedes darte de baja cuando quieras.</p>]]></b:widget-setting>
+          </b:widget-settings>
+          <!-- @include parts/widget-newsletter.xml -->
+        </b:widget>
+        <b:widget id='Label1' locked='false' title='Temas' type='Label' version='2' visible='true'>
+          <!-- @include parts/widget-labels.xml -->
+        </b:widget>
+      </b:section>
+      </aside>
+    </div>
+  </main>
+
+  <!-- ===== PIE ===== -->
+  <footer class='c-footer'>
+    <div class='l-container'>
+    <div class='c-footer__grid'>
+      <b:section class='l-footer__about' id='footer-about' maxwidgets='1' name='Pie: quiénes somos' showaddelement='no'>
+        <b:widget id='Profile1' locked='false' title='Quiénes somos' type='Profile' version='2' visible='true'>
+          <!-- @include parts/widget-profile.xml -->
+        </b:widget>
+      </b:section>
+      <b:section class='l-footer__col' id='footer-sections' maxwidgets='1' name='Pie: secciones' showaddelement='no'>
+        <b:widget id='LinkList2' locked='false' title='Secciones' type='LinkList' version='2' visible='true'>
+          <b:widget-settings>
+            <b:widget-setting name='sorting'>NONE</b:widget-setting>
+            <b:widget-setting name='text-0'>Actualidad</b:widget-setting>
+            <b:widget-setting name='link-0'>/search/label/Actualidad</b:widget-setting>
+            <b:widget-setting name='text-1'>Economía</b:widget-setting>
+            <b:widget-setting name='link-1'>/search/label/Econom%C3%ADa</b:widget-setting>
+            <b:widget-setting name='text-2'>Cultura</b:widget-setting>
+            <b:widget-setting name='link-2'>/search/label/Cultura</b:widget-setting>
+            <b:widget-setting name='text-3'>Tecnología</b:widget-setting>
+            <b:widget-setting name='link-3'>/search/label/Tecnolog%C3%ADa</b:widget-setting>
+            <b:widget-setting name='text-4'>Deportes</b:widget-setting>
+            <b:widget-setting name='link-4'>/search/label/Deportes</b:widget-setting>
+            <b:widget-setting name='text-5'>Opinión</b:widget-setting>
+            <b:widget-setting name='link-5'>/search/label/Opini%C3%B3n</b:widget-setting>
+          </b:widget-settings>
+          <!-- @include parts/widget-footer-links.xml -->
+        </b:widget>
+      </b:section>
+      <b:section class='l-footer__col' id='footer-social' maxwidgets='1' name='Pie: redes sociales' showaddelement='no'>
+        <b:widget id='LinkList3' locked='false' title='Síguenos' type='LinkList' version='2' visible='true'>
+          <b:widget-settings>
+            <b:widget-setting name='sorting'>NONE</b:widget-setting>
+            <b:widget-setting name='text-0'>X</b:widget-setting>
+            <b:widget-setting name='link-0'>https://x.com/</b:widget-setting>
+            <b:widget-setting name='text-1'>Facebook</b:widget-setting>
+            <b:widget-setting name='link-1'>https://www.facebook.com/</b:widget-setting>
+            <b:widget-setting name='text-2'>Instagram</b:widget-setting>
+            <b:widget-setting name='link-2'>https://www.instagram.com/</b:widget-setting>
+            <b:widget-setting name='text-3'>YouTube</b:widget-setting>
+            <b:widget-setting name='link-3'>https://www.youtube.com/</b:widget-setting>
+            <b:widget-setting name='text-4'>WhatsApp</b:widget-setting>
+            <b:widget-setting name='link-4'>https://www.whatsapp.com/channel/</b:widget-setting>
+          </b:widget-settings>
+          <!-- @include parts/widget-social.xml -->
+        </b:widget>
+      </b:section>
+      <b:section class='l-footer__col' id='footer-legal' name='Pie: información legal' showaddelement='yes'>
+        <b:widget id='PageList1' locked='false' title='Información' type='PageList' version='2' visible='true'>
+          <!-- @include parts/widget-pages.xml -->
+        </b:widget>
+        <b:widget id='HTML9' locked='false' title='Aviso legal' type='HTML' version='2' visible='true'>
+          <b:widget-settings>
+            <b:widget-setting name='content'><![CDATA[<p>Horizonte Diario es una publicación digital independiente. Los contenidos de este sitio están protegidos por la legislación española de propiedad intelectual. Queda prohibida su reproducción total o parcial sin autorización expresa.</p>]]></b:widget-setting>
+          </b:widget-settings>
+          <!-- @include parts/widget-legal.xml -->
+        </b:widget>
+      </b:section>
+    </div>
+    <!-- @include parts/footer-bottom.xml -->
+    <b:section class='c-footer__attribution' id='footer-attribution' maxwidgets='1' name='Pie: atribución' showaddelement='no'>
+      <b:widget id='Attribution1' locked='true' title='' type='Attribution' version='2' visible='true'/>
+    </b:section>
+    </div>
+  </footer>
+
+  <div class='c-toast' data-js='toast' role='status'/>
+
+  <!-- @include parts/tpl-card.xml -->
+
+  <!-- @inject:js -->
+</body>
+</html>

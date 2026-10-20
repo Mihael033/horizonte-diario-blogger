@@ -1,0 +1,17 @@
+      <!-- HTML1: "Última hora". Si el contenido del gadget trae una lista de enlaces (<ul><li><a>),
+           se usa tal cual (funciona sin JS). Si está vacío, el JS la rellena con las últimas entradas. -->
+      <b:includable id='main' var='this'>
+        <section class='c-ticker' data-js='ticker' expr:aria-label='data:title'>
+          <div class='l-container c-ticker__inner'>
+            <p aria-hidden='true' class='c-ticker__label'><span class='c-ticker__dot'/><data:title/></p>
+            <div class='c-ticker__viewport'>
+              <div class='c-ticker__track' data-js='ticker-track'><data:content/></div>
+            </div>
+            <button aria-pressed='false' class='c-iconbtn c-ticker__pause' data-js='ticker-pause' type='button'>
+              <svg aria-hidden='true' class='c-icon c-ticker__icon-pause' focusable='false'><use href='#i-pause'/></svg>
+              <svg aria-hidden='true' class='c-icon c-ticker__icon-play' focusable='false'><use href='#i-play'/></svg>
+              <span class='u-sr'>Pausar titulares</span>
+            </button>
+          </div>
+        </section>
+      </b:includable>

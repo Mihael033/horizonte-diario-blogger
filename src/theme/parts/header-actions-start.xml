@@ -1,0 +1,10 @@
+      <!-- Inicio de la barra fija: menú (móvil y tablet) y el sol de la marca (aparece al fijarse, escritorio). -->
+      <button aria-controls='menu' aria-expanded='false' class='c-iconbtn c-nav__toggle' data-js='menu-toggle' type='button'>
+        <svg aria-hidden='true' class='c-icon c-icon--menu' focusable='false'><use href='#i-menu'/></svg>
+        <svg aria-hidden='true' class='c-icon c-icon--close' focusable='false'><use href='#i-close'/></svg>
+        <span class='u-sr'>Menú de secciones</span>
+      </button>
+      <a class='c-nav__mini' expr:href='data:blog.homepageUrl'>
+        <svg aria-hidden='true' class='c-logo__mark' focusable='false' viewBox='0 0 46 23'><circle class='c-logo__sun' cx='23' cy='23' r='19'/><circle class='c-logo__star' cx='8' cy='8' r='1.4'/><circle class='c-logo__moon' cx='31' cy='11' r='7.5'/><circle class='c-logo__bite' cx='34.6' cy='8.4' r='6.2'/></svg>
+        <span class='u-sr'><data:blog.title/></span>
+      </a>

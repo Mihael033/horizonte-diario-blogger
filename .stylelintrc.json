@@ -1,0 +1,70 @@
+{
+  "extends": [
+    "stylelint-config-standard"
+  ],
+  "rules": {
+    "selector-class-pattern": [
+      "^(?:[a-z]-)?[a-z0-9]+(?:-[a-z0-9]+)*(?:__[a-z0-9]+(?:-[a-z0-9]+)*)?(?:--[a-z0-9]+(?:-[a-z0-9]+)*)?$",
+      {
+        "message": "Use BEM com prefixo: c-bloco__elemento--modificador (l-, c-, p-, u-, is-, has-)"
+      }
+    ],
+    "no-descending-specificity": null,
+    "property-no-vendor-prefix": [
+      true,
+      {
+        "ignoreProperties": [
+          "box-orient",
+          "line-clamp",
+          "initial-letter",
+          "font-smoothing",
+          "text-size-adjust"
+        ]
+      }
+    ],
+    "value-no-vendor-prefix": [
+      true,
+      {
+        "ignoreValues": [
+          "box"
+        ]
+      }
+    ],
+    "at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": [
+          "view-transition",
+          "starting-style"
+        ]
+      }
+    ],
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": [
+          "active-view-transition-type"
+        ]
+      }
+    ],
+    "declaration-property-value-no-unknown": null,
+    "property-no-unknown": [
+      true,
+      {
+        "ignoreProperties": [
+          "line-clamp",
+          "initial-letter",
+          "timeline-scope",
+          "view-timeline",
+          "animation-range"
+        ]
+      }
+    ],
+    "custom-property-pattern": [
+      "^[a-z][a-z0-9]*(?:-{1,2}[a-z0-9]+)*$",
+      {
+        "message": "Tokens em kebab-case; passos negativos da escala usam --step--1 (convenção Utopia)"
+      }
+    ]
+  }
+}

@@ -1,0 +1,171 @@
+@layer components {
+  /*
+   * Última hora. Sem JS (ou com movimento reduzido) é uma lista que rola na
+   * horizontal. Com JS, o script clona os itens uma vez (clones com
+   * aria-hidden) e a faixa desliza em loop; pausa no hover, no foco e no botão.
+   */
+  .c-ticker {
+    color: var(--color-footer-ink);
+    background: var(--color-footer);
+  }
+
+  .c-ticker__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    block-size: 2.75rem;
+  }
+
+  .c-ticker__label {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 0.55em;
+    font: inherit;
+    font-size: var(--step--1);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0;
+    color: var(--color-sun);
+  }
+
+  .c-ticker__dot {
+    position: relative;
+    inline-size: 0.55rem;
+    block-size: 0.55rem;
+    background: var(--color-live);
+    border-radius: 50%;
+  }
+
+  .c-ticker__dot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: inherit;
+    animation: ticker-pulse 1.8s var(--ease-out) infinite;
+  }
+
+  @keyframes ticker-pulse {
+    from {
+      opacity: 0.75;
+      transform: scale(1);
+    }
+
+    to {
+      opacity: 0;
+      transform: scale(2.8);
+    }
+  }
+
+  .c-ticker__viewport {
+    flex: 1;
+    min-inline-size: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    mask-image: linear-gradient(to right, transparent, #000 1.5rem, #000 calc(100% - 2.5rem), transparent);
+  }
+
+  .c-ticker__viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* A lista pode vir crua do gadget (ul > li > a) ou do JS (.c-ticker__list). */
+  .c-ticker__track > ul {
+    display: flex;
+    inline-size: max-content;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .c-ticker__track li {
+    display: flex;
+    align-items: center;
+    font-size: var(--step--1);
+    white-space: nowrap;
+  }
+
+  /* Separador: um meio-sol pequeno. */
+  .c-ticker__track li::before {
+    content: "";
+    inline-size: 0.6rem;
+    block-size: 0.3rem;
+    margin-inline: var(--space-s);
+    background: var(--color-sun);
+    border-radius: 999px 999px 0 0;
+  }
+
+  .c-ticker__track a {
+    padding-block: 0.6rem;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .c-ticker__track a:hover {
+    text-decoration: underline;
+  }
+
+  .c-ticker__track a:focus-visible {
+    outline-color: var(--color-sun);
+    outline-offset: -2px;
+  }
+
+  .c-ticker__pause {
+    flex: none;
+    inline-size: 2.75rem;
+    block-size: 2.75rem;
+    color: inherit;
+  }
+
+  .c-ticker__pause:hover {
+    background: color-mix(in oklab, var(--color-footer-ink) 14%, transparent);
+  }
+
+  .c-ticker__pause:focus-visible {
+    outline-color: var(--color-sun);
+  }
+
+  .c-ticker__icon-play,
+  .c-ticker__pause[aria-pressed="true"] .c-ticker__icon-pause {
+    display: none;
+  }
+
+  .c-ticker__pause[aria-pressed="true"] .c-ticker__icon-play {
+    display: block;
+  }
+
+  /* O botão só faz sentido quando a faixa se move. */
+  .c-ticker:not(.is-running) .c-ticker__pause {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .c-ticker.is-running .c-ticker__viewport {
+      overflow: hidden;
+    }
+
+    .c-ticker.is-running .c-ticker__track > ul {
+      animation: ticker-slide var(--ticker-duration, 70s) linear infinite;
+    }
+
+    .c-ticker:hover .c-ticker__track > ul,
+    .c-ticker:focus-within .c-ticker__track > ul,
+    .c-ticker.is-paused .c-ticker__track > ul {
+      animation-play-state: paused;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .c-ticker__pause,
+    .c-ticker__track li[aria-hidden="true"] {
+      display: none;
+    }
+  }
+
+  @keyframes ticker-slide {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}

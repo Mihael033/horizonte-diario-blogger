@@ -1,0 +1,35 @@
+      <!-- Final de la barra fija: búsqueda (panel) y modo oscuro. -->
+      <div class='c-nav__actions'>
+        <button aria-controls='search' aria-expanded='false' class='c-iconbtn' data-js='search-toggle' type='button'>
+          <svg aria-hidden='true' class='c-icon' focusable='false'><use href='#i-search'/></svg>
+          <span class='u-sr'>Buscar</span>
+        </button>
+        <button aria-pressed='false' class='c-iconbtn c-theme' data-js='theme-toggle' type='button'>
+          <svg aria-hidden='true' class='c-icon' focusable='false' viewBox='0 0 24 24'><defs><clipPath id='hz-sky'><rect height='15.5' width='24'/></clipPath></defs><g clip-path='url(#hz-sky)'><circle class='c-theme__sun' cx='12' cy='15.5' r='6'/><path class='c-theme__moon' d='M13.4 4.6a4.8 4.8 0 1 0 4.2 7.1 3.8 3.8 0 1 1-4.2-7.1Z'/></g><path d='M3 15.5h18M7.5 19.5h9'/></svg>
+          <span class='u-sr'>Modo oscuro</span>
+        </button>
+      </div>
+
+      <!-- Panel de búsqueda: baja desde arriba. Sin JS no se abre; la búsqueda queda en /search. -->
+      <div class='c-search' data-js='search' hidden='hidden' id='search'>
+        <div class='c-search__panel' role='dialog' aria-labelledby='search-label' aria-modal='true'>
+          <div class='l-container'>
+            <form class='c-search__form' expr:action='data:blog.searchUrl' method='get' role='search'>
+              <div class='c-search__head'>
+                <label class='c-search__label' for='search-input' id='search-label'>Buscar en <data:blog.title/></label>
+                <button class='c-iconbtn' data-js='search-close' type='button'>
+                  <svg aria-hidden='true' class='c-icon' focusable='false'><use href='#i-close'/></svg>
+                  <span class='u-sr'>Cerrar búsqueda</span>
+                </button>
+              </div>
+              <div class='c-search__field'>
+                <svg aria-hidden='true' class='c-icon' focusable='false'><use href='#i-search'/></svg>
+                <input aria-describedby='search-status' autocomplete='off' class='c-search__input' data-js='search-input' enterkeyhint='search' id='search-input' name='q' placeholder='Un tema, un lugar, una persona' type='search' expr:value='data:view.search.query'/>
+                <button class='c-button c-search__submit' type='submit'>Buscar</button>
+              </div>
+            </form>
+            <p aria-live='polite' class='c-search__status' data-js='search-status' id='search-status'/>
+            <section aria-label='Resultados rápidos' class='c-search__results' data-card='compact' data-js='search-results'/>
+          </div>
+        </div>
+      </div>

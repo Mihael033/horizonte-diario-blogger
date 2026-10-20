@@ -1,0 +1,116 @@
+            <!-- ===== Blog1 · listados: portada, etiqueta, búsqueda, hemeroteca, 404 ===== -->
+
+            <b:includable id='listHeader'>
+              <b:if cond='data:view.isLabelSearch'>
+                <header class='p-archive__head' expr:data-section='data:view.search.label'>
+                  <nav aria-label='Ruta de navegación' class='c-breadcrumbs'><ol><li><a expr:href='data:blog.homepageUrl'>Portada</a></li><li>Sección</li></ol></nav>
+                  <h1 class='p-archive__title'><data:view.search.label/></h1>
+                </header>
+              <b:elseif cond='data:view.search.query'/>
+                <header class='p-archive__head'>
+                  <nav aria-label='Ruta de navegación' class='c-breadcrumbs'><ol><li><a expr:href='data:blog.homepageUrl'>Portada</a></li><li>Búsqueda</li></ol></nav>
+                  <h1 class='p-archive__title'>Resultados para «<data:view.search.query/>»</h1>
+                </header>
+              <b:elseif cond='data:view.isArchive'/>
+                <header class='p-archive__head'>
+                  <nav aria-label='Ruta de navegación' class='c-breadcrumbs'><ol><li><a expr:href='data:blog.homepageUrl'>Portada</a></li><li>Hemeroteca</li></ol></nav>
+                  <h1 class='p-archive__title'><data:view.title/></h1>
+                </header>
+              <b:elseif cond='!data:view.isHomepage'/>
+                <header class='p-archive__head'>
+                  <nav aria-label='Ruta de navegación' class='c-breadcrumbs'><ol><li><a expr:href='data:blog.homepageUrl'>Portada</a></li><li>Archivo</li></ol></nav>
+                  <h1 class='p-archive__title'>Últimas noticias</h1>
+                </header>
+              </b:if>
+            </b:includable>
+
+            <!-- Portada: entrada 0 = destacado principal; 1 y 2 = secundarios; 3+ = últimas. -->
+            <b:includable id='homeLayout'>
+              <section aria-labelledby='hero-title' class='c-hero'>
+                <h2 class='u-sr' id='hero-title'>Lo más destacado</h2>
+                <div class='c-hero__grid'>
+                  <b:loop index='i' values='data:posts' var='post'>
+                    <b:if cond='data:i == 0'>
+                      <b:include data='post' name='heroLead'/>
+                    </b:if>
+                  </b:loop>
+                  <div class='c-hero__side' data-card='secondary'>
+                    <b:loop index='i' values='data:posts' var='post'>
+                      <b:if cond='data:i in {1, 2}'>
+                        <b:include data='post' name='card'/>
+                      </b:if>
+                    </b:loop>
+                  </div>
+                </div>
+              </section>
+              <section aria-labelledby='latest-title' class='c-latest'>
+                <header class='c-section-head'>
+                  <h2 class='c-section-head__title' id='latest-title'>Últimas noticias</h2>
+                  <span aria-hidden='true' class='c-section-head__rule'/>
+                </header>
+                <div class='l-grid' data-card='standard' data-js='post-list' id='post-list'>
+                  <b:loop index='i' values='data:posts' var='post'>
+                    <b:if cond='data:i &gt;= 3'>
+                      <b:include data='post' name='card'/>
+                    </b:if>
+                  </b:loop>
+                </div>
+              </section>
+            </b:includable>
+
+            <!-- Etiqueta, búsqueda y hemeroteca: lista con foto a la izquierda desde tablet. -->
+            <b:includable id='listLayout'>
+              <h2 class='u-sr'>Noticias</h2>
+              <div class='l-list' data-card='row' data-js='post-list' id='post-list'>
+                <b:loop values='data:posts' var='post'>
+                  <b:include data='post' name='card'/>
+                </b:loop>
+              </div>
+            </b:includable>
+
+            <!-- Paginación nativa. Con JS, "Más noticias" carga la siguiente tanda vía feed sin recargar. -->
+            <b:includable id='pager'>
+              <b:if cond='data:newerPageUrl or data:olderPageUrl'>
+                <nav aria-label='Paginación' class='c-pager'>
+                  <b:if cond='data:newerPageUrl'>
+                    <a class='c-pager__link c-pager__link--newer' expr:href='data:newerPageUrl'><span>Página anterior</span><strong>Más recientes</strong></a>
+                  </b:if>
+                  <b:if cond='data:olderPageUrl'>
+                    <a aria-controls='post-list' class='c-pager__link c-pager__link--older' data-js='load-more' expr:href='data:olderPageUrl'><span>Página siguiente</span><strong>Más noticias</strong></a>
+                  </b:if>
+                </nav>
+              </b:if>
+            </b:includable>
+
+            <b:includable id='emptyState'>
+              <div class='p-archive__empty'>
+                <p class='p-archive__empty-title'>No hemos encontrado noticias.</p>
+                <p class='p-archive__empty-text'>Prueba con otras palabras o vuelve a la <a expr:href='data:blog.homepageUrl'>portada</a>.</p>
+                <b:include name='searchForm'/>
+              </div>
+            </b:includable>
+
+            <b:includable id='errorPage'>
+              <section aria-labelledby='error-title' class='p-error__page'>
+                <div aria-hidden='true' class='p-error__art'><span class='p-error__code'>404</span></div>
+                <h1 class='p-error__title' id='error-title'>Esta página ya no está en el horizonte</h1>
+                <p class='p-error__text'>Puede que la noticia se haya movido o que el enlace esté mal escrito. Busca lo que querías leer o vuelve a la portada.</p>
+                <b:include name='searchForm'/>
+                <p class='p-error__links'><a class='c-button c-button--ghost' expr:href='data:blog.homepageUrl'>Ir a la portada</a></p>
+              </section>
+              <section aria-labelledby='error-latest' class='c-section-block p-error__latest' data-count='4' data-js='home-section' data-label=''>
+                <header class='c-section-head'>
+                  <h2 class='c-section-head__title' id='error-latest'>Últimas noticias</h2>
+                  <span aria-hidden='true' class='c-section-head__rule'/>
+                </header>
+                <div class='c-section-block__grid' data-card='list' data-card-first='standard' data-js='card-list'/>
+              </section>
+            </b:includable>
+
+            <b:includable id='searchForm'>
+              <form class='c-inline-search' expr:action='data:blog.searchUrl' method='get' role='search'>
+                <label class='u-sr' for='inline-search'>Buscar noticias</label>
+                <input class='c-inline-search__input' id='inline-search' name='q' placeholder='Buscar noticias' type='search' expr:value='data:view.search.query'/>
+                <button class='c-button' type='submit'>Buscar</button>
+              </form>
+            </b:includable>

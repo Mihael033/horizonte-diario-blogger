@@ -1,0 +1,13 @@
+          <!-- LinkList1: barra de secciones. "Portada" es fija; el resto se edita en Diseño. -->
+          <b:includable id='main' var='this'>
+            <ul class='c-nav__list'>
+              <li class='c-nav__item'>
+                <a class='c-nav__link' expr:href='data:blog.homepageUrl'><b:attr cond='data:view.isHomepage' name='aria-current' value='page'/>Portada</a>
+              </li>
+              <b:loop values='data:links' var='link'>
+                <li class='c-nav__item'>
+                  <a class='c-nav__link' expr:data-section='data:link.name' expr:href='data:link.target'><b:attr cond='data:view.search.label == data:link.name' name='aria-current' value='page'/><data:link.name/></a>
+                </li>
+              </b:loop>
+            </ul>
+          </b:includable>

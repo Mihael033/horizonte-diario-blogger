@@ -1,0 +1,11 @@
+          <!-- LinkList2: secciones en el pie. -->
+          <b:includable id='main' var='this'>
+            <nav class='c-footer__nav' expr:aria-label='data:title'>
+              <h2 class='c-footer__title'><data:title/></h2>
+              <ul class='c-footer__list'>
+                <b:loop values='data:links' var='link'>
+                  <li><a expr:href='data:link.target'><data:link.name/></a></li>
+                </b:loop>
+              </ul>
+            </nav>
+          </b:includable>

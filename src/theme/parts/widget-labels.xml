@@ -1,0 +1,16 @@
+            <!-- Label1: temas (etiquetas). Las secciones llevan su color. -->
+            <b:includable id='main' var='this'>
+              <section aria-labelledby='labels-title' class='c-widget c-topics'>
+                <header class='c-section-head c-section-head--small'>
+                  <h2 class='c-section-head__title' id='labels-title'><data:title/></h2>
+                  <span aria-hidden='true' class='c-section-head__rule'/>
+                </header>
+                <ul class='c-tags'>
+                  <b:loop values='data:labels' var='label'>
+                    <li>
+                      <a class='c-tag' expr:href='data:label.url'><b:attr cond='data:label.name in {{SECTIONS}}' expr:value='data:label.name' name='data-section'/><b:attr cond='data:label.name == data:view.search.label' name='aria-current' value='page'/><data:label.name/><b:if cond='data:this.showFreqNumbers'> <span class='c-tag__count'><data:label.count/></span></b:if></a>
+                    </li>
+                  </b:loop>
+                </ul>
+              </section>
+            </b:includable>

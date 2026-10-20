@@ -1,0 +1,285 @@
+@layer components {
+  /*
+   * Texto do post (HTML do editor do Blogger). Só seletores de elemento
+   * dentro de .c-prose: o autor não escreve classes.
+   */
+  .c-prose {
+    font-size: var(--step-0);
+    line-height: 1.7;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+
+  .c-prose > * + * {
+    margin-block-start: 1.15em;
+  }
+
+  .c-prose :is(h2, h3, h4) {
+    scroll-margin-block-start: calc(var(--header-h) + var(--space-m));
+    hyphens: manual;
+  }
+
+  .c-prose h2 {
+    margin-block-start: 1.9em;
+    font-size: var(--step-2);
+    line-height: 1.15;
+  }
+
+  .c-prose h3 {
+    margin-block-start: 1.6em;
+    font: var(--font-text);
+    font-size: var(--step-1);
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .c-prose h4 {
+    margin-block-start: 1.4em;
+    font: var(--font-text);
+    font-size: var(--step-0);
+    font-weight: 700;
+  }
+
+  .c-prose :is(h2, h3, h4) + * {
+    margin-block-start: 0.6em;
+  }
+
+  .c-prose a {
+    color: var(--color-accent);
+    text-decoration-color: color-mix(in oklab, var(--color-accent) 45%, transparent);
+    transition: text-decoration-color var(--dur-1) var(--ease-out);
+  }
+
+  .c-prose a:hover {
+    text-decoration-color: currentcolor;
+  }
+
+  .c-prose strong {
+    font-weight: 700;
+  }
+
+  /* Capitular no primeiro parágrafo, na cor da seção. */
+  .c-prose > p:first-of-type::first-letter {
+    float: left;
+    margin: 0.06em 0.1em 0 0;
+    font: var(--font-title);
+    font-size: 3.5em;
+    font-weight: 600;
+    line-height: 0.82;
+    color: var(--sec, var(--color-accent));
+  }
+
+  @supports (initial-letter: 3) or (-webkit-initial-letter: 3) {
+    .c-prose > p:first-of-type::first-letter {
+      float: none;
+      margin: 0 0.12em 0 0;
+      font-size: 1em;
+      line-height: 1;
+      -webkit-initial-letter: 3;
+      initial-letter: 3;
+    }
+  }
+
+  /* ---------- Listas: marcador de meio-sol, números em serifa ---------- */
+  .c-prose :is(ul, ol) {
+    display: grid;
+    gap: 0.5em;
+    padding-inline-start: 1.6em;
+  }
+
+  .c-prose ul {
+    list-style: none;
+  }
+
+  .c-prose ul > li {
+    position: relative;
+  }
+
+  .c-prose ul > li::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0.72em;
+    inset-inline-start: -1.25em;
+    inline-size: 0.62em;
+    block-size: 0.31em;
+    background: var(--sec, var(--color-accent));
+    border-radius: 999px 999px 0 0;
+  }
+
+  .c-prose ol > li::marker {
+    font: var(--font-title);
+    font-weight: 600;
+    color: var(--sec, var(--color-accent));
+  }
+
+  /*
+   * Citação. As comillas («») vêm do próprio texto, como se escreve em
+   * espanhol; o ornamento é o meio-sol da seção, pendurado na margem.
+   */
+  .c-prose blockquote {
+    position: relative;
+    margin-block: 1.8em;
+    padding-inline-start: 1.6em;
+    font: var(--font-title);
+    font-size: var(--step-2);
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--color-ink);
+  }
+
+  .c-prose blockquote::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 0.55em;
+    inset-inline-start: 0;
+    inline-size: 0.9em;
+    block-size: 0.45em;
+    background: var(--sec, var(--color-accent));
+    border-radius: 999px 999px 0 0;
+  }
+
+  .c-prose blockquote p + p {
+    margin-block-start: 0.6em;
+  }
+
+  .c-prose blockquote :is(cite, footer) {
+    display: block;
+    margin-block-start: 0.7em;
+    font: var(--font-text);
+    font-size: var(--step--1);
+    font-style: normal;
+    font-weight: 600;
+    color: var(--color-muted);
+  }
+
+  @media (width >= 64em) {
+    .c-prose blockquote {
+      margin-inline-start: -1.6em;
+    }
+  }
+
+  /* ---------- Nota (aside) ---------- */
+  .c-prose aside {
+    padding: var(--space-s) var(--space-m);
+    font-size: var(--step--1);
+    line-height: 1.55;
+    color: var(--color-ink-soft);
+    background: var(--color-surface);
+    border-inline-start: 3px solid var(--color-sun);
+    border-radius: 0 var(--radius-s) var(--radius-s) 0;
+  }
+
+  /* ---------- Imagens, legendas e vídeos ---------- */
+  .c-prose img {
+    block-size: auto;
+    max-inline-size: 100%;
+  }
+
+  .c-prose figure {
+    margin-block: 1.8em;
+  }
+
+  .c-prose figure img {
+    inline-size: 100%;
+  }
+
+  .c-prose figcaption,
+  .c-prose .tr-caption {
+    padding-block-start: var(--space-2xs);
+    font-size: var(--step--1);
+    line-height: 1.45;
+    text-align: start;
+    color: var(--color-muted);
+  }
+
+  /* Marcação que o editor do Blogger gera para imagens e legendas. */
+  .c-prose .separator {
+    margin-block: 1.8em;
+    text-align: center;
+  }
+
+  .c-prose .separator a {
+    display: inline-block;
+    margin: 0 !important;
+  }
+
+  .c-prose .tr-caption-container {
+    inline-size: 100%;
+    margin-block: 1.8em;
+    border-collapse: collapse;
+  }
+
+  .c-prose .tr-caption-container :is(td, th) {
+    padding: 0;
+    border: 0;
+  }
+
+  .c-prose iframe {
+    inline-size: 100%;
+    block-size: auto;
+    aspect-ratio: 16 / 9;
+    border: 0;
+  }
+
+  /* ---------- Tabelas ---------- */
+  .c-prose table:not(.tr-caption-container) {
+    display: block;
+    max-inline-size: 100%;
+    overflow-x: auto;
+    font-size: var(--step--1);
+    line-height: 1.45;
+    border-collapse: collapse;
+  }
+
+  .c-prose table:not(.tr-caption-container) :is(th, td) {
+    padding: 0.6em 0.9em;
+    text-align: start;
+    border-block-end: 1px solid var(--color-rule);
+  }
+
+  .c-prose table:not(.tr-caption-container) th {
+    font-weight: 700;
+    border-block-end: 2px solid var(--color-horizon);
+  }
+
+  /* ---------- Código e separador ---------- */
+  .c-prose :is(code, pre) {
+    font-family: ui-monospace, "Cascadia Code", SFMono-Regular, Consolas, monospace;
+    font-size: 0.88em;
+  }
+
+  .c-prose :not(pre) > code {
+    padding: 0.1em 0.35em;
+    background: var(--color-surface);
+    border-radius: var(--radius-s);
+  }
+
+  .c-prose pre {
+    padding: var(--space-s);
+    overflow-x: auto;
+    line-height: 1.5;
+    background: var(--color-surface);
+    border-radius: var(--radius-s);
+  }
+
+  /* Separador: a linha do horizonte com um sol pequeno no meio. */
+  .c-prose hr {
+    position: relative;
+    margin-block: 2.4em;
+    overflow: visible;
+    border-block-start: 1px solid var(--color-rule);
+  }
+
+  .c-prose hr::after {
+    content: "";
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline-start: 50%;
+    inline-size: 1.4em;
+    block-size: 0.7em;
+    background: var(--color-sun);
+    border-radius: 999px 999px 0 0;
+    translate: -50% 0;
+  }
+}

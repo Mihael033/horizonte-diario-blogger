@@ -1,0 +1,27 @@
+            <!-- PopularPosts1: "Lo más leído" (máximo 5). Numerado porque es un ranking. -->
+            <b:includable id='main' var='this'>
+              <section aria-labelledby='popular-title' class='c-widget c-popular'>
+                <header class='c-section-head c-section-head--small'>
+                  <h2 class='c-section-head__title' id='popular-title'><data:title/></h2>
+                  <span aria-hidden='true' class='c-section-head__rule'/>
+                </header>
+                <ol class='c-ranked' data-card='compact'>
+                  <b:loop index='i' values='data:posts' var='post'>
+                    <b:if cond='data:i &lt; 5'>
+                      <b:with value='{{SECTION_OF:post}}' var='section'>
+                        <li class='c-ranked__item'>
+                          <article class='c-card' expr:data-section='data:section.name'>
+                            <div class='c-card__body'>
+                              <b:if cond='data:section'>
+                                <a class='c-card__section' expr:href='data:section.url'><data:section.name/></a>
+                              </b:if>
+                              <h3 class='c-card__title'><a class='c-card__link' expr:href='data:post.url'><data:post.title/></a></h3>
+                            </div>
+                          </article>
+                        </li>
+                      </b:with>
+                    </b:if>
+                  </b:loop>
+                </ol>
+              </section>
+            </b:includable>

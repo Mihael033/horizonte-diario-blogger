@@ -1,0 +1,76 @@
+@layer components {
+  .c-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    min-block-size: 2.75rem;
+    padding: 0.5em 1.25em;
+    font-size: var(--step--1);
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    white-space: nowrap;
+    color: var(--color-accent-ink);
+    background: var(--color-accent);
+    border: 2px solid transparent;
+    border-radius: var(--radius-pill);
+    transition:
+      background-color var(--dur-1) var(--ease-out),
+      color var(--dur-1) var(--ease-out),
+      transform var(--dur-1) var(--ease-out);
+  }
+
+  .c-button:hover {
+    background: color-mix(in oklab, var(--color-accent) 86%, var(--color-ink));
+  }
+
+  .c-button:active {
+    transform: translateY(1px);
+  }
+
+  .c-button--sun {
+    color: var(--color-sun-ink);
+    background: var(--color-sun);
+  }
+
+  .c-button--sun:hover {
+    background: color-mix(in oklab, var(--color-sun) 88%, var(--color-ink));
+  }
+
+  .c-button--ghost {
+    color: var(--color-ink);
+    background: transparent;
+    border-color: var(--color-ink);
+  }
+
+  .c-button--ghost:hover {
+    color: var(--color-bg);
+    background: var(--color-ink);
+  }
+
+  .c-button[aria-busy="true"],
+  .c-button.is-loading {
+    cursor: progress;
+    opacity: 0.7;
+  }
+
+  /* Botão só com ícone: alvo de toque de 44 px. */
+  .c-iconbtn {
+    display: inline-grid;
+    place-items: center;
+    inline-size: 2.75rem;
+    block-size: 2.75rem;
+    color: var(--color-ink);
+    border-radius: var(--radius-pill);
+    transition: background-color var(--dur-1) var(--ease-out);
+  }
+
+  .c-iconbtn:hover {
+    background: var(--color-surface);
+  }
+
+  .c-iconbtn[aria-expanded="true"] {
+    background: var(--color-surface-2);
+  }
+}

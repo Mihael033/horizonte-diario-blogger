@@ -1,0 +1,31 @@
+@layer components {
+  /* Aviso curto ("Enlace copiado"). O JS troca o texto e alterna is-open. */
+  .c-toast {
+    position: fixed;
+    inset-block-end: max(var(--space-m), env(safe-area-inset-bottom));
+    inset-inline-start: 50%;
+    z-index: 80;
+    padding: 0.7em 1.2em;
+    font-size: var(--step--1);
+    font-weight: 600;
+    color: var(--color-bg);
+    background: var(--color-ink);
+    border-radius: var(--radius-pill);
+    box-shadow: 0 12px 30px -12px color-mix(in oklab, var(--color-ink) 70%, transparent);
+    opacity: 0;
+    pointer-events: none;
+    translate: -50% 1rem;
+    transition:
+      opacity var(--dur-2) var(--ease-out),
+      translate var(--dur-2) var(--ease-out);
+  }
+
+  .c-toast.is-open {
+    opacity: 1;
+    translate: -50% 0;
+  }
+
+  .c-toast:empty {
+    visibility: hidden;
+  }
+}

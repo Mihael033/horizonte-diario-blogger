@@ -1,0 +1,97 @@
+  <!-- ===== Título ===== -->
+  <b:if cond='data:view.isHomepage'>
+    <title><data:blog.title.escaped/></title>
+  <b:elseif cond='data:view.isLabelSearch'/>
+    <title><data:view.search.label.escaped/> | <data:blog.title.escaped/></title>
+  <b:elseif cond='data:view.search.query'/>
+    <title>Búsqueda: <data:view.search.query.escaped/> | <data:blog.title.escaped/></title>
+  <b:elseif cond='data:view.isError'/>
+    <title>Página no encontrada | <data:blog.title.escaped/></title>
+  <b:else/>
+    <title><data:view.title.escaped/> | <data:blog.title.escaped/></title>
+  </b:if>
+
+  <!-- ===== Descripción, indexación y canonical ===== -->
+  <!-- Las secciones del periódico ({{SECTIONS}}) son páginas de entrada: se indexan y llevan
+       descripción propia. Las demás etiquetas, la búsqueda, la hemeroteca y el 404 no se indexan. -->
+  <b:if cond='data:view.isLabelSearch and data:view.search.label in {{SECTIONS}}'>
+    <meta expr:content='"Últimas noticias de " + data:view.search.label + " en " + data:blog.title + "."' name='description'/>
+    <meta content='index, follow, max-image-preview:large' name='robots'/>
+  <b:elseif cond='data:view.isSearch or data:view.isArchive or data:view.isError'/>
+    <b:if cond='data:view.description'>
+      <meta expr:content='data:view.description' name='description'/>
+    </b:if>
+    <meta content='noindex, follow' name='robots'/>
+  <b:else/>
+    <b:if cond='data:view.description'>
+      <meta expr:content='data:view.description' name='description'/>
+    </b:if>
+    <meta content='index, follow, max-image-preview:large' name='robots'/>
+  </b:if>
+  <link expr:href='data:view.url.canonical' rel='canonical'/>
+  <link expr:href='data:blog.blogspotFaviconUrl' rel='icon' type='image/x-icon'/>
+  <data:blog.feedLinks/>
+  <meta content='#FFFFFF' media='(prefers-color-scheme: light)' name='theme-color'/>
+  <meta content='#0B1527' media='(prefers-color-scheme: dark)' name='theme-color'/>
+  <meta content='light dark' name='color-scheme'/>
+
+  <!-- ===== Open Graph ===== -->
+  <meta content='es_ES' property='og:locale'/>
+  <meta expr:content='data:blog.title' property='og:site_name'/>
+  <meta expr:content='data:view.isPost ? "article" : "website"' property='og:type'/>
+  <meta expr:content='data:view.isHomepage ? data:blog.title : data:view.title' property='og:title'/>
+  <meta expr:content='data:view.url.canonical' property='og:url'/>
+  <b:if cond='data:view.isLabelSearch and data:view.search.label in {{SECTIONS}}'>
+    <meta expr:content='"Últimas noticias de " + data:view.search.label + " en " + data:blog.title + "."' property='og:description'/>
+  <b:elseif cond='data:view.description'/>
+    <meta expr:content='data:view.description' property='og:description'/>
+  </b:if>
+  <b:if cond='data:view.featuredImage'>
+    <b:if cond='data:view.featuredImage.isResizable'>
+      <meta expr:content='resizeImage(data:view.featuredImage, 1200, "1200:630")' property='og:image'/>
+      <meta content='1200' property='og:image:width'/>
+      <meta content='630' property='og:image:height'/>
+    <b:else/>
+      <meta expr:content='data:view.featuredImage' property='og:image'/>
+    </b:if>
+    <meta expr:content='data:view.title' property='og:image:alt'/>
+  <b:else/>
+    <!-- IMAGEN PARA COMPARTIR la portada y las páginas sin foto (opcional): sube a Blogger una
+         imagen de 1200 × 630 px, pega su URL abajo y quita las marcas de comentario de esas dos
+         líneas. Con imagen, cambia también "summary" por "summary_large_image" en twitter:card.
+    <meta content='https://PEGA-AQUI-LA-URL-DE-TU-IMAGEN.jpg' property='og:image'/>
+    <meta content='Horizonte Diario' property='og:image:alt'/>
+    -->
+  </b:if>
+
+  <!-- ===== X / Twitter (el resto lo toma de Open Graph) ===== -->
+  <meta expr:content='data:view.featuredImage ? "summary_large_image" : "summary"' name='twitter:card'/>
+  <meta expr:content='data:view.isHomepage ? data:blog.title : data:view.title' name='twitter:title'/>
+
+  <!-- ===== Datos estructurados del sitio (solo portada); los del artículo van en Blog1 ===== -->
+  <b:if cond='data:view.isHomepage'>
+    <script type='application/ld+json'>{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "NewsMediaOrganization",
+      "@id": "<data:blog.homepageUrl.jsonEscaped/>#organization",
+      "name": "<data:blog.title.jsonEscaped/>",
+      "url": "<data:blog.homepageUrl.jsonEscaped/>"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "<data:blog.homepageUrl.jsonEscaped/>#website",
+      "name": "<data:blog.title.jsonEscaped/>",
+      "url": "<data:blog.homepageUrl.jsonEscaped/>",
+      "inLanguage": "es-ES",
+      "publisher": { "@id": "<data:blog.homepageUrl.jsonEscaped/>#organization" },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "<data:blog.searchUrl.jsonEscaped/>?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+  ]
+}</script>
+  </b:if>

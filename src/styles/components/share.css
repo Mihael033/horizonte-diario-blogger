@@ -1,0 +1,56 @@
+@layer components {
+  .c-share {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2xs) var(--space-xs);
+  }
+
+  .c-share__label {
+    font-size: var(--step--1);
+    font-weight: 600;
+    color: var(--color-muted);
+  }
+
+  .c-share__list {
+    display: flex;
+    gap: var(--space-3xs);
+  }
+
+  .c-share__btn {
+    display: inline-grid;
+    place-items: center;
+    inline-size: 2.75rem;
+    block-size: 2.75rem;
+    color: var(--color-ink);
+    border: 1px solid var(--color-rule);
+    border-radius: 50%;
+    transition:
+      color var(--dur-1) var(--ease-out),
+      background-color var(--dur-1) var(--ease-out),
+      border-color var(--dur-1) var(--ease-out);
+  }
+
+  .c-share__btn .c-icon {
+    inline-size: 1.15rem;
+    block-size: 1.15rem;
+  }
+
+  /* Ícones de marca são preenchidos, não traçados. */
+  .c-share__btn .c-icon--fill {
+    fill: currentcolor;
+    stroke: none;
+  }
+
+  .c-share__btn:hover {
+    color: var(--color-bg);
+    background: var(--color-ink);
+    border-color: var(--color-ink);
+  }
+
+  .c-share__btn.is-done {
+    color: var(--color-sun-ink);
+    background: var(--color-sun);
+    border-color: var(--color-sun);
+  }
+}

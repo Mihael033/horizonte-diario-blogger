@@ -1,0 +1,209 @@
+@layer components {
+  /*
+   * Barra de seções fixa: [menu] [mini marca] [seções] [busca, tema].
+   * É o único lugar com esses botões (o JS espera um elemento por data-js).
+   * Quando gruda no topo (is-stuck), mostra a mini marca à esquerda.
+   */
+  .c-nav {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 40;
+    border-block: 1px solid var(--color-rule);
+    transition: box-shadow var(--dur-2) var(--ease-out);
+  }
+
+  /* O desfoque fica num pseudo-elemento: backdrop-filter no próprio .c-nav
+     viraria bloco de contenção dos filhos fixed (painel do menu, busca). */
+  .c-nav::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: color-mix(in oklab, var(--color-bg) 92%, transparent);
+    backdrop-filter: saturate(1.4) blur(10px);
+  }
+
+  .c-nav.is-stuck {
+    box-shadow: 0 6px 18px -12px color-mix(in oklab, var(--color-ink) 45%, transparent);
+  }
+
+  .c-nav__inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3xs);
+    block-size: var(--header-h);
+  }
+
+  /* Botão do menu: some no desktop; o ícone troca pelo estado. */
+  .c-nav__toggle .c-icon--close,
+  .c-nav__toggle[aria-expanded="true"] .c-icon--menu {
+    display: none;
+  }
+
+  .c-nav__toggle[aria-expanded="true"] .c-icon--close {
+    display: block;
+  }
+
+  :root:not(.has-js) .c-nav__toggle {
+    display: none;
+  }
+
+  @media (width >= 64em) {
+    .c-nav__toggle {
+      display: none;
+    }
+  }
+
+  /*
+   * Mini marca (só o sol, escritorio): absoluta, então aparecer não empurra os
+   * links; eles andam com translate, que não conta como layout shift (CLS).
+   */
+  .c-nav__mini {
+    display: none;
+  }
+
+  @media (width >= 64em) {
+    .c-nav__mini {
+      position: absolute;
+      inset-block: 0;
+      inset-inline-start: var(--gutter);
+      display: flex;
+      align-items: center;
+      font-size: var(--step-2);
+      visibility: hidden;
+      opacity: 0;
+      transform: translateY(0.4em);
+      transition:
+        opacity var(--dur-2) var(--ease-out),
+        transform var(--dur-2) var(--ease-out),
+        visibility 0s linear var(--dur-2);
+    }
+
+    .c-nav.is-stuck .c-nav__mini {
+      visibility: visible;
+      opacity: 1;
+      transform: none;
+      transition-delay: 0s;
+    }
+
+    .c-nav__list {
+      transition: translate var(--dur-2) var(--ease-out);
+    }
+
+    .c-nav.is-stuck .c-nav__list {
+      translate: 2.5rem 0;
+    }
+  }
+
+  /* O invólucro do menu: no celular é a linha de seções; aberto, vira painel. */
+  .c-nav__menu {
+    display: flex;
+    flex: 1;
+    align-items: stretch;
+    min-inline-size: 0;
+    block-size: 100%;
+  }
+
+  .c-nav__section,
+  .c-nav__section > .widget {
+    display: contents;
+  }
+
+  .c-nav__drawer-head {
+    display: none;
+  }
+
+  /* Lista de seções: rola na horizontal no celular, com esmaecimento na borda. */
+  .c-nav__list {
+    display: flex;
+    flex: 1;
+    align-items: stretch;
+    gap: var(--space-3xs);
+    min-inline-size: 0;
+    block-size: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    mask-image: linear-gradient(to right, #000 calc(100% - 2.5rem), transparent);
+  }
+
+  .c-nav__list::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (width >= 64em) {
+    .c-nav__list {
+      mask-image: none;
+    }
+  }
+
+  .c-nav__item {
+    display: flex;
+    flex: none;
+  }
+
+  .c-nav__link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-inline: var(--space-xs);
+    font-size: var(--step--1);
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--color-ink-soft);
+    white-space: nowrap;
+    transition: color var(--dur-1) var(--ease-out);
+  }
+
+  /* O indicador é um meio-sol na cor da seção, nascendo da linha inferior. */
+  .c-nav__link::after {
+    content: "";
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline-start: 50%;
+    inline-size: 0.875rem;
+    block-size: 0.4375rem;
+    background: var(--sec, var(--color-accent));
+    border-radius: 999px 999px 0 0;
+    transform-origin: bottom center;
+    translate: -50% 0;
+    scale: 1 0;
+    transition: scale var(--dur-2) var(--ease-out);
+  }
+
+  .c-nav__link:hover,
+  .c-nav__link.is-active,
+  .c-nav__link[aria-current="page"] {
+    color: var(--color-ink);
+  }
+
+  .c-nav__link:hover::after,
+  .c-nav__link.is-active::after,
+  .c-nav__link[aria-current="page"]::after {
+    scale: 1 1;
+  }
+
+  .c-nav__link:focus-visible {
+    outline-offset: -3px;
+  }
+
+  .c-nav__actions {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: var(--space-3xs);
+    padding-inline-start: var(--space-3xs);
+  }
+
+  /* Barra de progresso de leitura: o sol atravessa a linha de baixo da barra. */
+  .c-nav__progress {
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: -1px;
+    block-size: 3px;
+    background: var(--color-sun);
+    transform-origin: left center;
+    transform: scaleX(var(--progress, 0));
+  }
+}

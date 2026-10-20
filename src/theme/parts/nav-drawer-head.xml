@@ -1,0 +1,8 @@
+        <!-- Cabecera del panel de secciones (solo visible con el menú abierto en móvil). -->
+        <div class='c-nav__drawer-head'>
+          <p class='c-nav__drawer-title' id='menu-title'>Secciones</p>
+          <button class='c-iconbtn' data-js='menu-close' type='button'>
+            <svg aria-hidden='true' class='c-icon' focusable='false'><use href='#i-close'/></svg>
+            <span class='u-sr'>Cerrar menú</span>
+          </button>
+        </div>
