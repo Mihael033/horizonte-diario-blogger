@@ -1,13 +1,13 @@
 # Horizonte Diario · Tema de periódico para Blogger
 
-[![CI y GitHub Pages](https://github.com/USUARIO/horizonte-diario-blogger/actions/workflows/pages.yml/badge.svg)](https://github.com/USUARIO/horizonte-diario-blogger/actions/workflows/pages.yml)
+[![CI y GitHub Pages](https://github.com/Mihael033/horizonte-diario-blogger/actions/workflows/pages.yml/badge.svg)](https://github.com/Mihael033/horizonte-diario-blogger/actions/workflows/pages.yml)
 [![Licencia MIT](https://img.shields.io/badge/licencia-MIT-1F45C4.svg)](LICENSE)
 
 ![Horizonte Diario: tema de periódico para Blogger, en escritorio y móvil](docs/screenshots/capa.png)
 
 Tema completo para convertir un blog de **Blogger** en un **periódico digital** moderno: portada con noticia destacada, franja de «Última hora», bloques por sección, artículos cómodos de leer y modo oscuro. Es rápido en el móvil, accesible y está optimizado para buscadores. Se instala importando un único archivo, [`theme/theme.xml`](theme/theme.xml), y se configura desde el panel de Blogger sin tocar código.
 
-**[Ver la demo en vivo](https://USUARIO.github.io/horizonte-diario-blogger/)** · **[Descargar theme.xml](theme/theme.xml)** · **[Guía de instalación](theme/README.md)**
+**[Ver la demo en vivo](https://mihael033.github.io/horizonte-diario-blogger/)** · **[Descargar theme.xml](theme/theme.xml)** · **[Guía de instalación](theme/README.md)**
 
 > Las noticias, autores y declaraciones de la demo son ficticios. «Horizonte Diario» es una marca de demostración.
 
